@@ -12,9 +12,9 @@
 	</parent>
 
 	<groupId>mov.personal.pcstats</groupId>
-	<artifactId>pcstats_html_client</artifactId>
+	<artifactId>client_html</artifactId>
 	<version>1.0</version>
-	<name>pcstats_html_client</name>
+	<name>pcstats_client_html</name>
 	<description>Client for HTML browsers</description>
 
 	<properties>

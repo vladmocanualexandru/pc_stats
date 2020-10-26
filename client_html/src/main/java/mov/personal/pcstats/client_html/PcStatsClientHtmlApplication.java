@@ -1,13 +1,13 @@
-package mov.personal.pcstats.html_client;
+package mov.personal.pcstats.client_html;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PcStatsHtmlClientApplication {
+public class PcStatsClientHtmlApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PcStatsHtmlClientApplication.class, args);
+		SpringApplication.run(PcStatsClientHtmlApplication.class, args);
 	}
 
 }

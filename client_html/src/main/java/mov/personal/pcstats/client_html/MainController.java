@@ -1,4 +1,4 @@
-package mov.personal.pcstats.html_client;
+package mov.personal.pcstats.client_html;
 
 import java.util.Date;
 
