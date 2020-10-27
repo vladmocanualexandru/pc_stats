@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>mov.personal.pcstats</groupId>
+	<artifactId>commons</artifactId>
+	<version>1.0</version>
+	<name>pcstats_commons</name>
+	<description>Common components for all PCStats modules</description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+
+	<dependencies>
+	
+	</dependencies>
+
+	<profiles>
+		
+	</profiles>
+
+	<build>
+		
+	</build>
+
+</project>

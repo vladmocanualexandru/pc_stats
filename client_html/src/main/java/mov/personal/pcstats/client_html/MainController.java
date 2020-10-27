@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
+import mov.personal.pcstats.commons.SystemInfo;
+
 @Controller
 public class MainController {
     
@@ -21,7 +23,7 @@ public class MainController {
     @GetMapping("/")
     public String showIndex(Model model){
 
-        String systemInfo = restTemplate.getForObject(systemInfoUrl, String.class);
+        SystemInfo systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
 
         model.addAttribute("systemInfo", systemInfo);
         model.addAttribute("currentTime", new Date());

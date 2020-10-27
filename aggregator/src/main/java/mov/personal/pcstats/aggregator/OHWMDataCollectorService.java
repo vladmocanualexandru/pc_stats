@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import mov.personal.pcstats.commons.SystemInfo;
+
 @Service
 public class OHWMDataCollectorService {
     
@@ -17,7 +19,7 @@ public class OHWMDataCollectorService {
     public SystemInfo getSystemInfo(){
         String jsonString = restTemplate.getForObject(dataUrl, String.class);
 
-        return SystemInfo.fromOHWMJSON(jsonString);
+        return SystemInfoBuilder.fromOHWMJSON(jsonString);
     }
 
 }
