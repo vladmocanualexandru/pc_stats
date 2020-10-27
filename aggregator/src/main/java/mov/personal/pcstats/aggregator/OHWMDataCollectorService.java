@@ -1,19 +1,21 @@
 package mov.personal.pcstats.aggregator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OHWMDataCollectorService {
     
+    @Value("${ohwm.data.url}")
+    private String dataUrl;
+    
     @Autowired
     private RestTemplate restTemplate;
 
     public SystemInfo getSystemInfo(){
-        final String uri = "http://192.168.1.71:8085/data.json";
- 
-        String jsonString = restTemplate.getForObject(uri, String.class);
+        String jsonString = restTemplate.getForObject(dataUrl, String.class);
 
         return SystemInfo.fromOHWMJSON(jsonString);
     }

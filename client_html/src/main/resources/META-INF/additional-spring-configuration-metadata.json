@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "pcstats.aggregator.systeminfo.url",
+  "type": "java.lang.String",
+  "description": "Aggregator system info URL"
+}]}
