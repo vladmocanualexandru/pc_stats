@@ -9,9 +9,9 @@
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
 </head>
 <body>
-    
     <img th:src="@{images/potato.jpg}" />
     <p>PC Stats</p>
+    <p th:text="${systemInfo}"></p>
     <p>
         <span th:text="${currentTime}"></span>
     </p>

@@ -10,19 +10,26 @@
 	</parent>
 	
 	<groupId>mov.personal.pcstats</groupId>
-	<artifactId>pcstats_aggregator</artifactId>
+	<artifactId>aggregator</artifactId>
 	<version>1.0</version>
 	<name>pcstats_aggregator</name>
 	<description>Aggregates and wraps data for clients</description>
 
 	<properties>
 		<java.version>15</java.version>
+		<org.json.version>20160810</org.json.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${org.json.version}</version>
 		</dependency>
 	</dependencies>
 
