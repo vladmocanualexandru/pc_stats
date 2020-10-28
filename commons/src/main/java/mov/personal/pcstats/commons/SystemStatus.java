@@ -1,32 +1,49 @@
 package mov.personal.pcstats.commons;
 
 public class SystemStatus {
-    private float cpuLoad, gpuLoad, ramLoad;
+    private double cpuLoad, gpuLoad, ramLoad, cpuTemp, gpuTemp;
 
-    public float getCpuLoad() {
+    public double getCpuLoad() {
         return cpuLoad;
     }
 
-    public void setCpuLoad(float cpuLoad) {
+    public void setCpuLoad(double cpuLoad) {
         this.cpuLoad = cpuLoad;
     }
 
-    public float getGpuLoad() {
+    public double getGpuLoad() {
         return gpuLoad;
     }
 
-    public void setGpuLoad(float gpuLoad) {
+    public void setGpuLoad(double gpuLoad) {
         this.gpuLoad = gpuLoad;
     }
 
-    public float getRamLoad() {
+    public double getRamLoad() {
         return ramLoad;
     }
 
-    public void setRamLoad(float ramLoad) {
+    public void setRamLoad(double ramLoad) {
         this.ramLoad = ramLoad;
     }
 
+    public double getCpuTemp() {
+        return cpuTemp;
+    }
+
+    public void setCpuTemp(double cpuTemp) {
+        this.cpuTemp = cpuTemp;
+    }
+
+    public double getGpuTemp() {
+        return gpuTemp;
+    }
+
+    public void setGpuTemp(double gpuTemp) {
+        this.gpuTemp = gpuTemp;
+    }
+
+    
     
     
 }

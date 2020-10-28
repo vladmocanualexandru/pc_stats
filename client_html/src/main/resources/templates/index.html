@@ -18,22 +18,59 @@
     <p>GPU load: <span id="gpuLoadP"></span></p>
     <p>RAM load: <span id="ramLoadP"></span></p> -->
 
-    <div class="dial-container">
-        <img th:src="@{/images/gauge_percentage.png}"/>
-        <img id="cpuLoadDial" class="dial" th:src="@{/images/dial.png}"/>
+    <div id="firstRow">
         <div class="label">CPU</div>
-    </div>
-
-    <div class="dial-container">
-        <img th:src="@{/images/gauge_percentage.png}"/>
-        <img id="gpuLoadDial" class="dial" th:src="@{/images/dial.png}"/>
         <div class="label">GPU</div>
+        <div class="label">RAM</div>
     </div>
 
-    <div class="dial-container">
-        <img th:src="@{/images/gauge_percentage.png}"/>
-        <img id="ramLoadDial" class="dial" th:src="@{/images/dial.png}"/>
-        <div class="label">RAM</div>
+    <div id="secondRow">
+        <div class="dial-container">
+            <img class="gauge" th:src="@{/images/gauge_percentage_load.png}"/>
+            <div class="shadowContainer">
+                <img id="cpuLoadDialShadow" class="dialShadow" th:src="@{/images/dial_shadow.png}"/>
+            </div>
+            <img id="cpuLoadDial" class="dial" th:src="@{/images/dial.png}"/>
+            <img class="topLayer" th:src="@{/images/top_layer.png}"/>
+        </div>
+
+        <div class="dial-container">
+            <img class="gauge" th:src="@{/images/gauge_percentage_load.png}"/>
+            <div class="shadowContainer">
+                <img id="gpuLoadDialShadow" class="dialShadow" th:src="@{/images/dial_shadow.png}"/>
+            </div>
+            <img id="gpuLoadDial" class="dial" th:src="@{/images/dial_beige.png}"/>
+            <img class="topLayer" th:src="@{/images/top_layer.png}"/>
+        </div>
+
+        <div class="dial-container">
+            <img class="gauge" th:src="@{/images/gauge_percentage_load.png}"/>
+            <div class="shadowContainer">
+                <img id="ramLoadDialShadow" class="dialShadow" th:src="@{/images/dial_shadow.png}"/>
+            </div>
+            <img id="ramLoadDial" class="dial" th:src="@{/images/dial_yellow.png}"/>
+            <img class="topLayer" th:src="@{/images/top_layer.png}"/>
+        </div>
+    </div>
+
+    <div id="thirdRow">
+        <div class="dial-container">
+            <img class="gauge" th:src="@{/images/gauge_20_100_temperature.png}"/>
+            <div class="shadowContainer">
+                <img id="cpuTempDialShadow" class="dialShadow" th:src="@{/images/dial_shadow.png}"/>
+            </div>
+            <img id="cpuTempDial" class="dial" th:src="@{/images/dial_green.png}"/>
+            <img class="topLayer" th:src="@{/images/top_layer.png}"/>
+        </div>
+
+        <div class="dial-container">
+            <img class="gauge" th:src="@{/images/gauge_20_100_temperature.png}"/>
+            <div class="shadowContainer">
+                <img id="gpuTempDialShadow" class="dialShadow" th:src="@{/images/dial_shadow.png}"/>
+            </div>
+            <img id="gpuTempDial" class="dial" th:src="@{/images/dial_red.png}"/>
+            <img class="topLayer" th:src="@{/images/top_layer.png}"/>
+        </div>
     </div>
 
     <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>

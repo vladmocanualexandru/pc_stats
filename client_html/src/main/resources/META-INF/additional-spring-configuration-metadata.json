@@ -8,5 +8,10 @@
     "name": "pcstats.aggregator.systemstatus.url",
     "type": "java.lang.String",
     "description": "Aggregator system status URL"
+  },
+  {
+    "name": "pcstats.client-html.ui.use-mock-data",
+    "type": "java.lang.String",
+    "description": "Setting this flag to true, will bypass communication with aggregator and use mock data instead."
   }
 ]}

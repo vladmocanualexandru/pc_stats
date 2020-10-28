@@ -14,12 +14,21 @@ public class PollingController {
     @Value("${pcstats.aggregator.systemstatus.url}")
     String systemStatusInfoUrl;
 
+    @Value("${pcstats.client-html.ui.use-mock-data}")
+    Boolean useMockDataOnUi;
+
     @Autowired
     RestTemplate restTemplate;
 
     @GetMapping("/poll-system-stats")
     public SystemStatus pollStats(){
-        SystemStatus status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
+        SystemStatus status = new SystemStatus();
+        
+        if (!useMockDataOnUi){
+            status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
+        } else {
+            status = MockSystemStatusBuilder.build();
+        }
 
         return status;
     }
