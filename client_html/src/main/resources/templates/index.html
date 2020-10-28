@@ -6,16 +6,37 @@
     <title>PC Stats</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
 </head>
-<body>
-    <img th:src="@{images/potato.jpg}" />
-    <p>PC Stats</p>
-    <p th:text="${systemInfo}"></p>
-    <p>
-        <span th:text="${currentTime}"></span>
-    </p>
+<body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}">
+    <!-- <p th:text="${systemInfo.pcName}"></p>
+    <p th:text="${systemInfo.cpuName}"></p>
+    <p th:text="${systemInfo.gpuName}"></p>
+    <p id="timeP" th:text="${currentTime}"></p>
 
-    <!-- <script src='main.js'></script> -->
+    <p>CPU load: <span id="cpuLoadP"></span></p>
+    <p>GPU load: <span id="gpuLoadP"></span></p>
+    <p>RAM load: <span id="ramLoadP"></span></p> -->
+
+    <div class="dial-container">
+        <img th:src="@{/images/gauge_percentage.png}"/>
+        <img id="cpuLoadDial" class="dial" th:src="@{/images/dial.png}"/>
+        <div class="label">CPU</div>
+    </div>
+
+    <div class="dial-container">
+        <img th:src="@{/images/gauge_percentage.png}"/>
+        <img id="gpuLoadDial" class="dial" th:src="@{/images/dial.png}"/>
+        <div class="label">GPU</div>
+    </div>
+
+    <div class="dial-container">
+        <img th:src="@{/images/gauge_percentage.png}"/>
+        <img id="ramLoadDial" class="dial" th:src="@{/images/dial.png}"/>
+        <div class="label">RAM</div>
+    </div>
+
+    <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

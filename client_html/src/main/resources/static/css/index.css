@@ -1,0 +1,26 @@
+div.dial-container {
+    display:inline-block;
+    height: 200px;
+    width: 200pX;
+    margin-right:20px;
+}
+
+div.dial-container img {
+    height:200px;
+    position:absolute;
+}
+
+div.dial-container img.dial {
+    transform: rotate(-45deg);
+    transition: transform 0.9s;
+}
+
+div.dial-container div.label {
+    position: absolute;
+    display: inline-block;
+    margin-left: 87px;
+    z-index: 1000;
+    margin-top: 154px;
+    font-family: fantasy;
+}
+

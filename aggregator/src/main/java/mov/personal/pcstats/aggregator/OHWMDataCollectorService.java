@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import mov.personal.pcstats.commons.SystemInfo;
+import mov.personal.pcstats.commons.SystemStatus;
 
 @Service
 public class OHWMDataCollectorService {
@@ -20,6 +21,12 @@ public class OHWMDataCollectorService {
         String jsonString = restTemplate.getForObject(dataUrl, String.class);
 
         return SystemInfoBuilder.fromOHWMJSON(jsonString);
+    }
+
+    public SystemStatus getSystemStatus(){
+        String jsonString = restTemplate.getForObject(dataUrl, String.class);
+
+        return SystemStatusBuilder.fromOHWMJSON(jsonString);
     }
 
 }

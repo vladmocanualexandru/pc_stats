@@ -1,0 +1,16 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <groupId>mov.personal.pcstats</groupId>
+  <artifactId>parent</artifactId>
+  <version>1.0</version>
+  
+  <packaging>pom</packaging>
+ 
+  <modules>
+    <module>commons</module>
+	<module>aggregator</module>
+	<module>client_html</module>
+  </modules>
+  
+</project>
