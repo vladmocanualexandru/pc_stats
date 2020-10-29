@@ -29,7 +29,7 @@ public class MainController {
         SystemInfo systemInfo = new SystemInfo();
         
         if (!useMockDataOnUi) {
-            restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
+            systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
         } else {
             systemInfo.setCpuName("TEST CPU (use-mock-data=true)");
             systemInfo.setGpuName("TEST GPU (use-mock-data=true)");

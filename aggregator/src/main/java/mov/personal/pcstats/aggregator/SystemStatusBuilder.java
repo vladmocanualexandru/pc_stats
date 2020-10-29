@@ -19,7 +19,7 @@ public class SystemStatusBuilder {
         String ramStringValue = ramObject.getJSONArray("Children").getJSONObject(0).getJSONArray("Children").getJSONObject(0).getString("Value");
 
         result.setCpuLoad(Float.parseFloat(cpuStringValue.replace(" %", "")));
-        result.setGpuLoad(Float.parseFloat(gpuStringValue.replace(" %", "")));
+        result.setGpuLoadCore(Float.parseFloat(gpuStringValue.replace(" %", "")));
         result.setRamLoad(Float.parseFloat(ramStringValue.replace(" %", "")));
 
         return result;

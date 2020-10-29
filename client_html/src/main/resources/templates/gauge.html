@@ -1,0 +1,22 @@
+<th:block th:fragment="_(writing, id, dial)">
+    <div class="dial-container">
+        <img class="gaugeLayer" th:src="@{/images/background.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/{writing}.png(writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
+
+        <div class="gaugeLayer shadowContainer">
+            <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dial_shadow.png}"/>
+        </div>
+        <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/{dial}.png(dial=${dial})}"/>
+
+        <img class="gaugeLayer" th:src="@{/images/glass.png}"/>
+    </div>
+</th:block>
+
+<th:block th:fragment="blank()">
+    <div class="dial-container">
+        <img class="gaugeLayer" th:src="@{/images/background_blank.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/glass.png}"/>
+    </div>
+</th:block>

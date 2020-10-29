@@ -1,5 +1,7 @@
 package mov.personal.pcstats.client_html;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +23,17 @@ public class PollingController {
     RestTemplate restTemplate;
 
     @GetMapping("/poll-system-stats")
-    public SystemStatus pollStats(){
+    public SystemStatus pollStats(HttpSession session){
         SystemStatus status = new SystemStatus();
         
         if (!useMockDataOnUi){
             status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
         } else {
-            status = MockSystemStatusBuilder.build();
+            //check for mock system status seed
+            status = session.getAttribute("mockSystemStatusSeed")!=null?MockSystemStatusBuilder.build((SystemStatus)session.getAttribute("mockSystemStatusSeed")):MockSystemStatusBuilder.build();
+            
+            //update mock system status seed
+            session.setAttribute("mockSystemStatusSeed", status);
         }
 
         return status;

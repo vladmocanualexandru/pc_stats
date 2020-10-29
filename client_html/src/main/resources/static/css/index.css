@@ -1,15 +1,15 @@
+html, body {
+    background:#000;
+}
+
 div.dial-container {
     display:inline-block;
     height: 200px;
     width: 200px;
-    margin: 10px 20px;
+    margin: 10px;
 }
 
-div.dial-container img.gauge {
-    filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.5));
-}
-
-div.dial-container img.gauge, div.dial-container img.dial, div.dial-container img.topLayer, div.dial-container img.dialShadow, div.dial-container div.shadowContainer {
+div.dial-container .gaugeLayer {
     height:200px;
     position:absolute;
 }
@@ -20,7 +20,7 @@ div.dial-container div.shadowContainer {
 }
 
 div.dial-container img.dial, div.dial-container img.dialShadow {
-    transform: rotate(-45deg);
+    transform: rotate(-57deg);
     transition: transform 1s;
 }
 
