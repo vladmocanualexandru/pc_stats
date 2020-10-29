@@ -2,6 +2,7 @@ package mov.personal.pcstats.commons;
 
 public class SystemStatus {
     private double cpuLoad, gpuLoadCore, gpuLoadMemory, ramLoad, cpuTemp, gpuTemp, cpuFan, gpuFan, gpuMemory, watts;
+    private double[] cpuCoreLoads = {-1f,-1f,-1f,-1f,-1f,-1f,-1f,-1f};
 
     public SystemStatus() {
         this.cpuLoad = -1f;
@@ -94,6 +95,14 @@ public class SystemStatus {
 
     public void setGpuLoadMemory(double gpuLoadMemory) {
         this.gpuLoadMemory = gpuLoadMemory;
+    }
+
+    public double[] getCpuCoreLoads() {
+        return cpuCoreLoads;
+    }
+
+    public void setCpuCoreLoads(double[] cpuCoreLoads) {
+        this.cpuCoreLoads = cpuCoreLoads;
     }
     
 }

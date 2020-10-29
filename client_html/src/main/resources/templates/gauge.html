@@ -1,15 +1,34 @@
 <th:block th:fragment="_(writing, id, dial)">
     <div class="dial-container">
-        <img class="gaugeLayer" th:src="@{/images/background.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/{writing}.png(writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/gauges/background.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/gauges/{writing}.png(writing=${writing})}"/>
         <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
 
         <div class="gaugeLayer shadowContainer">
-            <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dial_shadow.png}"/>
+            <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dials/dial_shadow.png}"/>
         </div>
-        <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/{dial}.png(dial=${dial})}"/>
+        <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/dials/{dial}.png(dial=${dial})}"/>
 
-        <img class="gaugeLayer" th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/glass.png}"/>
+    </div>
+</th:block>
+
+<th:block th:fragment="core_status()">
+    <div class="dial-container">
+        <img class="gaugeLayer" th:src="@{/images/core_status/background_core_status.png}"/>
+
+        <div class="nixieTubeContainer gaugeLayer">
+            <img id="coreStatus0" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus1" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus2" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus3" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus4" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus5" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus6" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus7" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+        </div>
+
+        <img class="gaugeLayer gaugeGlass" th:src="@{/images/glass.png}"/>
     </div>
 </th:block>
 
@@ -17,6 +36,6 @@
     <div class="dial-container">
         <img class="gaugeLayer" th:src="@{/images/background_blank.png}"/>
         <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer gaugeGlass" th:src="@{/images/glass.png}"/>
     </div>
 </th:block>

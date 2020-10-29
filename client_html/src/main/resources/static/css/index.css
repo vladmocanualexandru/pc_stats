@@ -24,11 +24,19 @@ div.dial-container img.dial, div.dial-container img.dialShadow {
     transition: transform 1s;
 }
 
-div#firstRow div.label {
-    display: inline-block;
-    font-family: fantasy;
-    width:200px;
-    margin:0px 20px;
-    text-align: center;
+div.dial-container img.gaugeGlass {
+    z-index:2000;
+}
+
+div.dial-container div.nixieTubeContainer {
+    width: 122px;
+    margin-left: 39px;
+    margin-top: 38px;
+}
+
+div.dial-container div.nixieTubeContainer img.nixieTube{
+    height: 52px;
+    z-index: 1000;
+    float: left;
 }
 

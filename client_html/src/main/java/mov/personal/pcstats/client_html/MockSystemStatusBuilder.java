@@ -20,6 +20,9 @@ public class MockSystemStatusBuilder {
 
                 status.setWatts(Math.random()*700);
 
+                for (int i =0; i<status.getCpuCoreLoads().length; i++) {
+                        status.getCpuCoreLoads()[i] = Math.random()*100;
+                }
                 
                 return status;
 	}
@@ -38,6 +41,9 @@ public class MockSystemStatusBuilder {
                 
                 status.setWatts(Math.max(0, Math.min(700, status.getWatts()+(Math.random()*70-35))));
 
+                for (int i =0; i<status.getCpuCoreLoads().length; i++) {
+                        status.getCpuCoreLoads()[i] = Math.max(0, Math.min(100, status.getCpuCoreLoads()[i]+(Math.random()*20-10)));
+                }
                 
                 return status;
 	}

@@ -29,7 +29,7 @@
     
     <div id="secondRow">
         <th:block th:replace="~{gauge::_( 'writing_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>
-        <th:block th:replace="~{gauge::blank()}"></th:block>
+        <th:block th:replace="~{gauge::core_status()}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_temperature', 'cpuTempDial', 'dial_black')}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'cpuFanDial', 'dial_beige')}"></th:block>
     </div>
