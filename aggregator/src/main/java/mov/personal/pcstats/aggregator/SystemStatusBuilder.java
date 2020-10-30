@@ -22,13 +22,16 @@ public class SystemStatusBuilder {
         }
 
         String cpuTempStringValue = cpuObject.getJSONArray("Children").getJSONObject(1).getJSONArray("Children").getJSONObject(0).getString("Value");
-        result.setCpuTemp(Float.parseFloat(cpuTempStringValue.replace(" °C","")));
+        result.setCpuTemp(Float.parseFloat(cpuTempStringValue.subSequence(0,cpuTempStringValue.length()-3).toString()));
 
         result.setWatts(Float.parseFloat(cpuObject.getJSONArray("Children").getJSONObject(3).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" W","")));
 
         result.setGpuLoadCore(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" %", "")));
         result.setGpuLoadMemory(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(4).getString("Value").replace(" %", "")));
-        result.setGpuTemp(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(1).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" °C","")));
+
+        String gpuTempString = gpuObject.getJSONArray("Children").getJSONObject(1).getJSONArray("Children").getJSONObject(0).getString("Value");
+        result.setGpuTemp(Float.parseFloat(gpuTempString.subSequence(0,gpuTempString.length()-3).toString()));
+        
         result.setGpuFan(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(3).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" RPM","")));
         result.setWatts(result.getWatts()+Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(5).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" W","")));
         
