@@ -43,4 +43,24 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/lite")
+    public String showLiteIndex(Model model){
+
+        SystemInfo systemInfo = new SystemInfo();
+        
+        if (!useMockDataOnUi) {
+            systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
+        } else {
+            systemInfo.setCpuName("TEST CPU (use-mock-data=true)");
+            systemInfo.setGpuName("TEST GPU (use-mock-data=true)");
+            systemInfo.setPcName("TEST PC (use-mock-data=true)");
+            systemInfo.setNoCpuCores(4);
+        }
+
+        model.addAttribute("systemInfo", systemInfo);
+        model.addAttribute("currentTime", new Date());
+
+        return "index_lite";
+    }
+
 }

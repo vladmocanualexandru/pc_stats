@@ -1,12 +1,23 @@
 html, body {
     background:#000;
+    text-align:center;
+    padding:0px;
+    margin:0px;
+    overflow: hidden;
+}
+
+div.row {
+    min-width: 0px;
+    display: inline-block;
+    text-align: left;
+    padding:10px 0px;
 }
 
 div.dial-container {
     display:inline-block;
     height: 200px;
     width: 200px;
-    margin: 10px;
+    margin: 0px 10px;
 }
 
 div.dial-container .gaugeLayer {

@@ -1,5 +1,6 @@
 package mov.personal.pcstats.aggregator;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import mov.personal.pcstats.commons.SystemStatus;
@@ -14,13 +15,25 @@ public class SystemStatusBuilder {
         JSONObject ramObject = rootObject.getJSONArray("Children").getJSONObject(2); 
         JSONObject gpuObject = rootObject.getJSONArray("Children").getJSONObject(3); 
 
-        String cpuStringValue = cpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(0).getString("Value");
-        String gpuStringValue = gpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(0).getString("Value");
-        String ramStringValue = ramObject.getJSONArray("Children").getJSONObject(0).getJSONArray("Children").getJSONObject(0).getString("Value");
+        JSONArray cpuLoads = cpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children");
+        result.setCpuLoad(Float.parseFloat(cpuLoads.getJSONObject(0).getString("Value").replace(" %", "")));
+        for (int i = 0; i < 8; i++) {
+            result.getCpuCoreLoads()[i] = Float.parseFloat(cpuLoads.getJSONObject(i+1).getString("Value").replace(" %", ""));
+        }
 
-        result.setCpuLoad(Float.parseFloat(cpuStringValue.replace(" %", "")));
-        result.setGpuLoadCore(Float.parseFloat(gpuStringValue.replace(" %", "")));
-        result.setRamLoad(Float.parseFloat(ramStringValue.replace(" %", "")));
+        String cpuTempStringValue = cpuObject.getJSONArray("Children").getJSONObject(1).getJSONArray("Children").getJSONObject(0).getString("Value");
+        result.setCpuTemp(Float.parseFloat(cpuTempStringValue.replace(" °C","")));
+
+        result.setWatts(Float.parseFloat(cpuObject.getJSONArray("Children").getJSONObject(3).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" W","")));
+
+        result.setGpuLoadCore(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" %", "")));
+        result.setGpuLoadMemory(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(2).getJSONArray("Children").getJSONObject(4).getString("Value").replace(" %", "")));
+        result.setGpuTemp(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(1).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" °C","")));
+        result.setGpuFan(Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(3).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" RPM","")));
+        result.setWatts(result.getWatts()+Float.parseFloat(gpuObject.getJSONArray("Children").getJSONObject(5).getJSONArray("Children").getJSONObject(0).getString("Value").replace(" W","")));
+        
+        String ramLoadStringValue = ramObject.getJSONArray("Children").getJSONObject(0).getJSONArray("Children").getJSONObject(0).getString("Value");
+        result.setRamLoad(Float.parseFloat(ramLoadStringValue.replace(" %", "")));
 
         return result;
     }

@@ -1,5 +1,6 @@
 var POLL_PERIOD = 1000;
 var pollUrl = $("body").attr("data-pollUrl");
+var noCpuCores;
 
 var dialIds = [
     "cpuLoadDial", 
@@ -21,13 +22,18 @@ function updateDial(dialId, value, formula){
 }
 
 function updateCoreStatus(loads){
-    for (let index = 0; index < loads.length; index++) {
-        let load = Math.round(loads[index]/10);
+    for (let index = 0; index < noCpuCores; index++) {
+        let load = loads[index];
+        if (load > -1) { 
+            load = Math.round(loads[index]/10);
 
-        if (load<10) {
-            $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/core_status/nixie_${load}.png`);
+            if (load<10) {
+                $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/core_status/nixie_${load}.png`);
+            } else {
+                $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dash.png");
+            }
         } else {
-            $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dash.png");
+            $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
         }
     }
 }
@@ -40,17 +46,17 @@ function pollForData(){
             // console.log(data);
             
             updateDial("cpuLoadDial", data.cpuLoad, v=>{return v*270/100-45});
-            updateDial("cpuTempDial", data.cpuTemp, v=>{return Math.max(20,v)*270/100-45});
+            updateDial("cpuTempDial", data.cpuTemp, v=>{return Math.max(0,v-20)*270/80-45});
             updateDial("cpuFanDial", data.cpuFan, v=>{return v*270/3000-45});
 
             updateDial("gpuCoreLoadDial", data.gpuLoadCore, v=>{return v*270/100-45});
             updateDial("gpuMemLoadDial", data.gpuLoadMemory, v=>{return v*270/100-45});
-            updateDial("gpuTempDial", data.gpuTemp, v=>{return Math.max(20,v)*270/100-45});
+            updateDial("gpuTempDial", data.gpuTemp, v=>{return Math.max(0,v-20)*270/80-45});
             updateDial("gpuFanDial", data.gpuFan, v=>{return v*270/3000-45});
             
             updateDial("ramLoadDial", data.ramLoad, v=>{return v*270/100-45});
             
-            updateDial("wattLoadDial", data.watts, v=>{return Math.max(100,v)*270/700-45});
+            updateDial("wattLoadDial", data.watts, v=>{return Math.max(0,(v-100))*270/600-45});
 
             updateCoreStatus(data.cpuCoreLoads);
 
@@ -92,7 +98,7 @@ function startGaugesAnimation(){
 }
 
 function disableCoreStatus(){
-    $(".nixieTube").attr("src", "/pcstats_client/images/core_status/nixie_blank.png");
+    $(".nixieTube").attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
 }
 
 function startCoreStatusAnimation(currentStep){
@@ -106,6 +112,8 @@ function startCoreStatusAnimation(currentStep){
 
     }, 100);
 }
+
+noCpuCores = $("body").attr("data-noCpuCores");
 
 startGaugesAnimation();
 startCoreStatusAnimation(0);

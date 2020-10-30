@@ -1,0 +1,32 @@
+div.row {
+    padding:0px;
+}
+
+div.dial-container img.dial, div.dial-container img.dialShadow {
+    transition: none;
+}
+
+div.dial-container {
+    display:inline-block;
+    height: 190px;
+    width: 190px;
+    margin: 20px 0px;
+}
+
+div.dial-container .gaugeLayer {
+    height:190px;
+    position:absolute;
+}
+
+div.dial-container div.nixieTubeContainer {
+    width: 118px;
+    margin-left: 36px;
+    margin-top: 33px;
+}
+
+div.dial-container div.nixieTubeContainer img.nixieTube{
+    height: 50px;
+    z-index: 1000;
+    float: left;
+}
+
