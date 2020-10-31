@@ -7,6 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
 </head>
 <body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated">
     
@@ -41,12 +42,19 @@
         <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'gpuFanDial', 'dial_beige')}"></th:block>
     </div>
     <div class="separator"></div>
-    <div class="row" style="padding:0px 220px;">
+    <div class="row" style="padding-left:220px;">
         <th:block th:replace="~{gauge::_( 'writing_utilization', 'ramLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_consumption', 'wattLoadDial', 'dial_yellow')}"></th:block>
+        <div class="dial-container" style="vertical-align: bottom; text-align:center;">
+            <div style="overflow: auto; margin-top:40px;">
+                <th:block th:replace="~{toggle_switch::_( 'animationToggle', true)}"></th:block>    
+                <th:block th:replace="~{toggle_switch::_( 'refreshToggle', false)}"></th:block>    
+            </div>
+        </div>
     </div>
 
     <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>
     <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/toggle_switches.js}"></script>
 </body>
 </html>

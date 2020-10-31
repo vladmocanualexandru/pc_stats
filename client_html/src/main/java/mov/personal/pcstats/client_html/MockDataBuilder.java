@@ -1,10 +1,29 @@
 package mov.personal.pcstats.client_html;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import mov.personal.pcstats.commons.SystemInfo;
 import mov.personal.pcstats.commons.SystemStatus;
 
-public class MockSystemStatusBuilder {
+@Component
+public class MockDataBuilder {
 
-	public static SystemStatus build() {
+        @Value("${pcstats.client-html.ui.mock-data.useSubtleVariation}")
+        Boolean useSubtleVariation;
+
+        public SystemInfo buildInfo() {
+                SystemInfo info = new SystemInfo();
+                
+                info.setCpuName("TEST CPU (use-mock-data=true)");
+                info.setGpuName("TEST GPU (use-mock-data=true)");
+                info.setPcName("TEST PC (use-mock-data=true)");
+                info.setNoCpuCores((int)Math.round(Math.random()*7)+1);
+
+                return info;
+        }
+
+	public SystemStatus buildStatus() {
                 SystemStatus status = new SystemStatus();
 
                 status.setCpuLoad(Math.random()*100);
@@ -27,7 +46,10 @@ public class MockSystemStatusBuilder {
                 return status;
 	}
 
-	public static SystemStatus build(SystemStatus status) {
+	public SystemStatus buildStatus(SystemStatus status) {
+
+                if (!useSubtleVariation) return buildStatus();
+
 		status.setCpuLoad(Math.max(0, Math.min(100, status.getCpuLoad()+(Math.random()*10-5))));
                 status.setCpuTemp(Math.max(20, Math.min(100, status.getCpuTemp()+(Math.random()*8-4))));
                 status.setCpuFan(Math.max(0, Math.min(3000, status.getCpuFan()+(Math.random()*300-150))));
@@ -42,7 +64,10 @@ public class MockSystemStatusBuilder {
                 status.setWatts(Math.max(0, Math.min(700, status.getWatts()+(Math.random()*70-35))));
 
                 for (int i =0; i<status.getCpuCoreLoads().length; i++) {
-                        status.getCpuCoreLoads()[i] = Math.max(0, Math.min(100, status.getCpuCoreLoads()[i]+(Math.random()*20-10)));
+                        double load = status.getCpuCoreLoads()[i];
+                        if (load>-1){
+                                status.getCpuCoreLoads()[i] = Math.max(0, Math.min(100, load+(Math.random()*20-10)));
+                        }
                 }
                 
                 return status;

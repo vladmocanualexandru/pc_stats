@@ -8,6 +8,7 @@
 
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index_lite.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
 </head>
 <body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated" style="overflow-y: hidden;">
     
@@ -15,17 +16,26 @@
         <th:block th:replace="~{gauge::_( 'writing_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::core_status()}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_temperature', 'cpuTempDial', 'dial_black')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_utilization', 'ramLoadDial', 'dial_red')}"></th:block>
+        <!-- <th:block th:replace="~{gauge::_( 'writing_utilization', 'ramLoadDial', 'dial_red')}"></th:block> -->
     </div>
     <div class="separator"></div>
     <div class="row">
         <th:block th:replace="~{gauge::_( 'writing_utilization_core', 'gpuCoreLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_utilization_memory', 'gpuMemLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::_( 'writing_temperature', 'gpuTempDial', 'dial_black')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_consumption', 'wattLoadDial', 'dial_yellow')}"></th:block>
+        <!-- <th:block th:replace="~{gauge::_( 'writing_consumption', 'wattLoadDial', 'dial_yellow')}"></th:block> -->
+        <div class="dial-container" style="vertical-align: bottom; text-align:center;">
+            <div style="overflow: auto; margin-top:40px;">
+                <th:block th:replace="~{toggle_switch::_( 'animationToggle', false)}"></th:block>    
+                <th:block th:replace="~{toggle_switch::_( 'refreshToggle', false)}"></th:block>    
+            </div>
+        </div>
     </div>
 
     <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>
     <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/index_lite.js}"></script>
+    <script th:src="@{/js/toggle_switches.js}"></script>
+    
 </body>
 </html>

@@ -16,11 +16,14 @@ public class PollingController {
     @Value("${pcstats.aggregator.systemstatus.url}")
     String systemStatusInfoUrl;
 
-    @Value("${pcstats.client-html.ui.use-mock-data}")
+    @Value("${pcstats.client-html.ui.mock-data.enabled}")
     Boolean useMockDataOnUi;
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    MockDataBuilder mockBuilder;
 
     @GetMapping("/poll-system-stats")
     public SystemStatus pollStats(HttpSession session){
@@ -30,7 +33,7 @@ public class PollingController {
             status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
         } else {
             //check for mock system status seed
-            status = session.getAttribute("mockSystemStatusSeed")!=null?MockSystemStatusBuilder.build((SystemStatus)session.getAttribute("mockSystemStatusSeed")):MockSystemStatusBuilder.build();
+            status = session.getAttribute("mockSystemStatusSeed")!=null?mockBuilder.buildStatus((SystemStatus)session.getAttribute("mockSystemStatusSeed")):mockBuilder.buildStatus();
             
             //update mock system status seed
             session.setAttribute("mockSystemStatusSeed", status);

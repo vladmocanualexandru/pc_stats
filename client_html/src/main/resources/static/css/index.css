@@ -32,6 +32,8 @@ div.dial-container div.shadowContainer {
 
 div.dial-container img.dial, div.dial-container img.dialShadow {
     transform: rotate(-57deg);
+}
+div.dial-container.animated img.dial, div.dial-container.animated img.dialShadow {
     transition: transform 1s;
 }
 
@@ -49,5 +51,7 @@ div.dial-container div.nixieTubeContainer img.nixieTube{
     height: 52px;
     z-index: 1000;
     float: left;
+    opacity: 1;
+    transition: opacity 0.5s;
 }
 

@@ -21,17 +21,35 @@ function updateDial(dialId, value, formula){
     }
 }
 
+function changeCoreStatus(index, newValue) {
+    let currentCore = $(`#coreStatus${index}`);
+    let currentState = $(`#coreStatus${index}`).attr("src");
+
+    if (currentState!=newValue) {
+        $(`#coreStatus${index}Back`).attr("src", currentState);
+        currentCore.css("opacity", 0);
+        setTimeout(function(){
+            currentCore.attr("src", newValue);
+            currentCore.css("opacity", 1);
+        }, 500);
+    }
+}
+
 function updateCoreStatus(loads){
     for (let index = 0; index < noCpuCores; index++) {
         let load = loads[index];
         if (load > -1) { 
             load = Math.round(loads[index]/10);
-
+            let newState;
             if (load<10) {
-                $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/core_status/nixie_${load}.png`);
+                newState = `/pcstats_client/images/core_status/nixie_${load}.png`;
+                // $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/core_status/nixie_${load}.png`);
             } else {
-                $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dash.png");
+                newState = `/pcstats_client/images/core_status/nixie_dash.png`;
+                // $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dash.png");
             }
+
+            changeCoreStatus(index, newState);
         } else {
             $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
         }
@@ -113,7 +131,23 @@ function startCoreStatusAnimation(currentStep){
     }, 100);
 }
 
+$("#animationToggle").change(function(event, jt){
+    let state = jt.val() == "true";
+    
+    if (state) {
+        $(".dial-container").addClass("animated");
+    } else {
+        $(".dial-container").removeClass("animated");
+    }
+});
+
+$("#refreshToggle").change(function(){
+    location.reload();
+});
+
 noCpuCores = $("body").attr("data-noCpuCores");
+
+$(".dial-container").addClass("animated");
 
 startGaugesAnimation();
 startCoreStatusAnimation(0);

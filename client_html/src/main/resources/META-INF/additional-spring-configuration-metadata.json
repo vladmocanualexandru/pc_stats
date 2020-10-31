@@ -10,8 +10,14 @@
     "description": "Aggregator system status URL"
   },
   {
-    "name": "pcstats.client-html.ui.use-mock-data",
-    "type": "java.lang.String",
+    "name": "pcstats.client-html.ui.mock-data.enabled",
+    "type": "java.lang.Boolean",
     "description": "Setting this flag to true, will bypass communication with aggregator and use mock data instead."
+  },
+  {
+    "name": "pcstats.client-html.ui.mock-data.useSubtleVariation",
+    "type": "java.lang.Boolean",
+    "description": "Setting this flag to true, mock data will vary slightly from one poll to another."
   }
+
 ]}
