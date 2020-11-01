@@ -26,12 +26,7 @@ function changeCoreStatus(index, newValue) {
     let currentState = $(`#coreStatus${index}`).attr("src");
 
     if (currentState!=newValue) {
-        $(`#coreStatus${index}Back`).attr("src", currentState);
-        currentCore.css("opacity", 0);
-        setTimeout(function(){
-            currentCore.attr("src", newValue);
-            currentCore.css("opacity", 1);
-        }, 500);
+        currentCore.attr("src", newValue);
     }
 }
 

@@ -9,7 +9,7 @@
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
 </head>
-<body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated">
+<body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" th:style="'background:url('+ @{/images/background_dark_wood_1920_1080.jpg} +');'">
     
     <!-- <p th:text="${systemInfo.pcName}"></p>
     <p th:text="${systemInfo.cpuName}"></p>
@@ -31,25 +31,24 @@
     <div class="row">
         <th:block th:replace="~{gauge::_( 'writing_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::core_status()}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_temperature', 'cpuTempDial', 'dial_black')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'cpuFanDial', 'dial_beige')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_temperature', 'cpuTempDial', 'dial_red')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'cpuFanDial', 'dial_red')}"></th:block>
     </div>
     <div class="separator"></div>
     <div class="row">
-        <th:block th:replace="~{gauge::_( 'writing_utilization_core', 'gpuCoreLoadDial', 'dial_red')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_utilization_memory', 'gpuMemLoadDial', 'dial_red')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_temperature', 'gpuTempDial', 'dial_black')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'gpuFanDial', 'dial_beige')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_utilization_core', 'gpuCoreLoadDial', 'dial_green')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_utilization_memory', 'gpuMemLoadDial', 'dial_green')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_temperature', 'gpuTempDial', 'dial_green')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_fan_speed', 'gpuFanDial', 'dial_green')}"></th:block>
     </div>
     <div class="separator"></div>
     <div class="row" style="padding-left:220px;">
-        <th:block th:replace="~{gauge::_( 'writing_utilization', 'ramLoadDial', 'dial_red')}"></th:block>
-        <th:block th:replace="~{gauge::_( 'writing_consumption', 'wattLoadDial', 'dial_yellow')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_utilization', 'ramLoadDial', 'dial_yellow')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'writing_consumption', 'wattLoadDial', 'dial_beige')}"></th:block>
         <div class="dial-container" style="vertical-align: bottom; text-align:center;">
-            <div style="overflow: auto; margin-top:40px;">
-                <th:block th:replace="~{toggle_switch::_( 'animationToggle', true)}"></th:block>    
-                <th:block th:replace="~{toggle_switch::_( 'refreshToggle', false)}"></th:block>    
-            </div>
+            <div style="height:50px;"></div>
+            <th:block th:replace="~{toggle_switch::_( 'animationToggle', true)}"></th:block>    
+            <th:block th:replace="~{toggle_switch::_( 'refreshToggle', false)}"></th:block>    
         </div>
     </div>
 
