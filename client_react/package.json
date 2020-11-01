@@ -2,6 +2,8 @@
   "name": "client_react",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
@@ -11,6 +13,8 @@
     "@types/react": "^16.9.55",
     "@types/react-dom": "^16.9.9",
     "axios": "^0.21.0",
+    "electron": "^10.1.5",
+    "electron-packager": "^15.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
@@ -21,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=x64 --icon=src/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=clien-react"
   },
   "eslintConfig": {
     "extends": [
