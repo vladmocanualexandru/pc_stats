@@ -1,5 +1,3 @@
-import { isConstructorDeclaration } from "typescript"
-
 export default class SystemInfo{
     constructor(
         public pcName:string,

@@ -3,6 +3,7 @@ import './App.css';
 import Api from '../services/api.service';
 import SystemInfo from "../models/system-info.model";
 import SystemStatus from '../models/system-status.model';
+import InfoFrame from "./components/info-frame/info-frame.component";
 
 class App extends React.Component<{},{
   systemInfo:SystemInfo|undefined,
@@ -22,6 +23,8 @@ class App extends React.Component<{},{
     try {
       const systemInfo:SystemInfo = await Api.getSystemInfo() ;
       const systemStatus:SystemStatus = await Api.getSystemStatus() ;
+      // const systemInfo:SystemInfo = new SystemInfo("","","","");
+      // const systemStatus:SystemStatus = new SystemStatus(0,0,0,0,0,0,0,0,0,0,[])
       this.setState({ systemInfo:systemInfo});
       this.setState({ systemStatus:systemStatus});
     } catch (error) {
@@ -33,12 +36,9 @@ class App extends React.Component<{},{
   render(){
     if(this.state.messageInfo){
       return <div className="App">{this.state.messageInfo}</div>
-    }else if(this.state.systemInfo){
+    }else if(this.state.systemInfo && this.state.systemStatus){
       return (
-        <div className="App">
-          {`${JSON.stringify(this.state.systemInfo)};`}
-          {`${JSON.stringify(this.state.systemStatus)}`}
-        </div>
+        <InfoFrame systemInfo={this.state.systemInfo} systemStatus={this.state.systemStatus!}/>
       );
     }else
       return <></>
