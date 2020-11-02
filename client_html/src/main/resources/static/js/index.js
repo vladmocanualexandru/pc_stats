@@ -3,15 +3,16 @@ var pollUrl = $("body").attr("data-pollUrl");
 var noCpuCores;
 
 var dialIds = [
-    "cpuLoadDial", 
-    "cpuFanDial", 
-    "cpuTempDial", 
-    "gpuCoreLoadDial", 
-    "gpuMemLoadDial", 
-    "gpuFanDial", 
-    "gpuTempDial", 
-    "ramLoadDial",
-    "wattLoadDial"]
+    {id: "cpuLoadDial", maxRotation: 270}, 
+    {id: "cpuFanDial", maxRotation: 270}, 
+    {id: "cpuTempDial", maxRotation: 270}, 
+    {id: "gpuCoreLoadDial", maxRotation: 270}, 
+    {id: "gpuMemLoadDial", maxRotation: 270}, 
+    {id: "gpuFanDial", maxRotation: 270}, 
+    {id: "gpuTempDial", maxRotation: 270}, 
+    {id: "ramLoadDial", maxRotation: 270},
+    {id: "wattLoadDial", maxRotation: 270},
+    {id: "timeDial", maxRotation: 348}]
 
 function updateDial(dialId, value, formula){
     if (value == -1) {
@@ -51,6 +52,16 @@ function updateCoreStatus(loads){
     }
 }
 
+function parseTime(timeStr){
+    let tokens = timeStr.split(":");
+    let hours = Number(tokens[0]);
+    let minutes = Number(tokens[1]);
+
+    if (hours==-1) return -1;
+
+    return 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -46;
+}
+
 function pollForData(){
    
     $.ajax({
@@ -70,6 +81,8 @@ function pollForData(){
             updateDial("ramLoadDial", data.ramLoad, v=>{return v*270/100-45});
             
             updateDial("wattLoadDial", data.watts, v=>{return Math.max(0,(v-100))*270/600-45});
+
+            updateDial("timeDial", data.time, parseTime);
 
             updateCoreStatus(data.cpuCoreLoads);
 
@@ -97,14 +110,14 @@ function disableDial(dialId){
 }
 
 function disableAllDials(){
-    dialIds.forEach(dialId => {
-        disableDial(dialId)
+    dialIds.forEach(dial => {
+        disableDial(dial.id)
     })
 }
 
 function startGaugesAnimation(){
-    dialIds.forEach(dialId => {
-        rotateDial(dialId, 270-45);
+    dialIds.forEach(dial => {
+        rotateDial(dial.id, dial.maxRotation-45);
     });
 
     setTimeout(pollForData, 1000);
@@ -134,10 +147,6 @@ $("#animationToggle").change(function(event, jt){
     } else {
         $(".dial-container").removeClass("animated");
     }
-});
-
-$("#refreshToggle").change(function(){
-    location.reload();
 });
 
 noCpuCores = $("body").attr("data-noCpuCores");

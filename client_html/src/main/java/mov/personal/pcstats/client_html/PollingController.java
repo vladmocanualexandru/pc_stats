@@ -34,7 +34,7 @@ public class PollingController {
         } else {
             //check for mock system status seed
             status = session.getAttribute("mockSystemStatusSeed")!=null?mockBuilder.buildStatus((SystemStatus)session.getAttribute("mockSystemStatusSeed")):mockBuilder.buildStatus();
-            
+
             //update mock system status seed
             session.setAttribute("mockSystemStatusSeed", status);
         }

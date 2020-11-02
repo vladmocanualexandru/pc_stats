@@ -3,6 +3,7 @@ package mov.personal.pcstats.commons;
 public class SystemStatus {
     private double cpuLoad, gpuLoadCore, gpuLoadMemory, ramLoad, cpuTemp, gpuTemp, cpuFan, gpuFan, gpuMemory, watts;
     private double[] cpuCoreLoads = {-1f,-1f,-1f,-1f,-1f,-1f,-1f,-1f};
+    private String time = "-1:-1:-1";
 
     public SystemStatus() {
         this.cpuLoad = -1f;
@@ -104,5 +105,12 @@ public class SystemStatus {
     public void setCpuCoreLoads(double[] cpuCoreLoads) {
         this.cpuCoreLoads = cpuCoreLoads;
     }
-    
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
