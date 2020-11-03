@@ -14,6 +14,8 @@ var dialIds = [
     {id: "wattLoadDial", maxRotation: 270},
     {id: "timeDial", maxRotation: 348}]
 
+var diskIds = ["dayMomentDisk"]
+
 function updateDial(dialId, value, formula){
     if (value == -1) {
         disableDial(dialId);
@@ -52,14 +54,17 @@ function updateCoreStatus(loads){
     }
 }
 
-function parseTime(timeStr){
+function updateTimeGauge(timeStr){
     let tokens = timeStr.split(":");
     let hours = Number(tokens[0]);
     let minutes = Number(tokens[1]);
 
-    if (hours==-1) return -1;
+    if (hours==-1) disableDial("timeDial")
+    else rotateDial("timeDial", 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -46);
 
-    return 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -46;
+    let diskDegrees = 0-hours*15;
+    $(`#dayMomentDisk`).css("transform", `rotate(${diskDegrees}deg)`);
+
 }
 
 function pollForData(){
@@ -82,8 +87,7 @@ function pollForData(){
             
             updateDial("wattLoadDial", data.watts, v=>{return Math.max(0,(v-100))*270/600-45});
 
-            updateDial("timeDial", data.time, parseTime);
-
+            updateTimeGauge(data.time);
             updateCoreStatus(data.cpuCoreLoads);
 
             setTimeout(pollForData, POLL_PERIOD);

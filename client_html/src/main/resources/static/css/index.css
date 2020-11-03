@@ -35,11 +35,21 @@ div.dial-container img.background {
     filter: drop-shadow(6px 6px 8px rgba(0,0,0,1));
 }
 
+div.dial-container img.disk {
+    height:77px;
+    position:absolute;
+    margin-left: 62px;
+    margin-top: 110px;
+}
+
 
 div.dial-container img.dial, div.dial-container img.dialShadow {
     transform: rotate(-57deg);
 }
-div.dial-container.animated img.dial, div.dial-container.animated img.dialShadow {
+
+div.dial-container.animated img.dial, 
+div.dial-container.animated img.dialShadow,
+div.dial-container.animated img.disk  {
     transition: transform 1s;
 }
 

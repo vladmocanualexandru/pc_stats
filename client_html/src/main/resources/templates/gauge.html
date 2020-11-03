@@ -13,6 +13,22 @@
     </div>
 </th:block>
 
+<th:block th:fragment="_disk(writing, dialId, dial, diskId)">
+    <div class="dial-container">
+        <img class="gaugeLayer background" th:src="@{/images/gauges/background.png}"/>
+        <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/gauges/gauge_disk_time.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/gauges/{writing}.png(writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
+
+        <div class="gaugeLayer shadowContainer">
+            <img th:id="${dialId+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dials/dial_shadow.png}"/>
+        </div>
+        <img th:id="${dialId}" class="gaugeLayer dial" th:src="@{/images/dials/{dial}.png(dial=${dial})}"/>
+
+        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/glass.png}"/>
+    </div>
+</th:block>
+
 <th:block th:fragment="core_status()">
     <div class="dial-container">
         <img class="gaugeLayer background" th:src="@{/images/core_status/background_core_status.png}"/>
