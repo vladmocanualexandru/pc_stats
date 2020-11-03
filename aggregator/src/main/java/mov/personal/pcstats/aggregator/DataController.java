@@ -28,7 +28,12 @@ public class DataController {
     @CrossOrigin
     @GetMapping("/get-system-status")
     public SystemStatus getSystemStatus(){
-        SystemStatus status = ohwmDataCollectorService.getSystemStatus();
+        SystemStatus status = new SystemStatus();
+        try {
+            status = ohwmDataCollectorService.getSystemStatus();
+        } catch(Exception e) {
+            System.out.println("Error while parsing OHWM data");
+        }
         status.setTime(sdf.format(new Date()));
 
         return status;

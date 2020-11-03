@@ -1,5 +1,7 @@
 package mov.personal.pcstats.client_html;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +10,8 @@ import mov.personal.pcstats.commons.SystemStatus;
 
 @Component
 public class MockDataBuilder {
+        
+        private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         @Value("${pcstats.client-html.ui.mock-data.useSubtleVariation}")
         Boolean useSubtleVariation;
@@ -42,6 +46,8 @@ public class MockDataBuilder {
                 for (int i =0; i<status.getCpuCoreLoads().length; i++) {
                         status.getCpuCoreLoads()[i] = Math.random()*100;
                 }
+
+                status.setTime(String.format("%d:00:00", Math.round(Math.random()*23)));
                 
                 return status;
 	}
@@ -69,6 +75,11 @@ public class MockDataBuilder {
                                 status.getCpuCoreLoads()[i] = Math.max(0, Math.min(100, load+(Math.random()*20-10)));
                         }
                 }
+
+                int hours = Integer.parseInt(status.getTime().split(":")[0]);
+                int minutes = Integer.parseInt(status.getTime().split(":")[1])+15;
+                if (minutes == 60) { minutes = 0; hours = (hours+1)%24; }
+                status.setTime(String.format("%d:%d:00", hours, minutes));
                 
                 return status;
 	}

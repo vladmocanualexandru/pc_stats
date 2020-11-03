@@ -62,7 +62,7 @@ function updateTimeGauge(timeStr){
     if (hours==-1) disableDial("timeDial")
     else rotateDial("timeDial", 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -46);
 
-    let diskDegrees = 0-hours*15;
+    let diskDegrees = 0-hours*15 - Math.floor(minutes/15)*3;
     $(`#dayMomentDisk`).css("transform", `rotate(${diskDegrees}deg)`);
 
 }
@@ -138,7 +138,9 @@ function startCoreStatusAnimation(currentStep){
         
         if (currentStep<7) {
             startCoreStatusAnimation(currentStep+1);
-        } 
+        } else {
+            $(".nixieTube").attr("src", "/pcstats_client/images/core_status/nixie_blank.png");
+        }
 
     }, 100);
 }
