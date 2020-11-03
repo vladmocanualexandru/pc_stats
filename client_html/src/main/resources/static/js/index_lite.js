@@ -1,1 +1,1 @@
-$(".dial-container").removeClass("animated");
+ $(".dial-container").removeClass("animated");

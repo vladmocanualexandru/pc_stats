@@ -1,7 +1,7 @@
 <th:block th:fragment="_(writing, id, dial)">
     <div class="dial-container">
         <img class="gaugeLayer background" th:src="@{/images/gauges/background.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/gauges/{writing}.png(writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/gauges/writings/{writing}.svg(writing=${writing})}"/>
         <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
 
         <div class="gaugeLayer shadowContainer">
@@ -16,8 +16,8 @@
 <th:block th:fragment="_disk(writing, dialId, diskId)">
     <div class="dial-container">
         <img class="gaugeLayer background" th:src="@{/images/gauges/background.png}"/>
-        <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/gauges/gauge_disk_time.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/gauges/{writing}.png(writing=${writing})}"/>
+        <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/gauges/gauge_disk_time.svg}"/>
+        <img class="gaugeLayer" th:src="@{/images/gauges/writings/{writing}.svg(writing=${writing})}"/>
         <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
 
         <div class="gaugeLayer shadowContainer">
