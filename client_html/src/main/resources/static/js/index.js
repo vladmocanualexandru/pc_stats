@@ -60,7 +60,7 @@ function updateTimeGauge(timeStr){
     let minutes = Number(tokens[1]);
 
     if (hours==-1) disableDial("timeDial")
-    else rotateDial("timeDial", 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -46);
+    else rotateDial("timeDial", 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -45);
 
     let diskDegrees = 0-hours*15 - Math.floor(minutes/15)*3;
     $(`#dayMomentDisk`).css("transform", `rotate(${diskDegrees}deg)`);

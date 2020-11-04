@@ -44,7 +44,7 @@ public class MockDataBuilder {
                 }
 
                 status.setTime(String.format("%d:00:00", Math.round(Math.random()*23)));
-                
+
                 return status;
 	}
 
