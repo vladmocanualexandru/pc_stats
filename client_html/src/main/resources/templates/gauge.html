@@ -1,57 +1,57 @@
 <th:block th:fragment="_(writing, id, dial)">
     <div class="dial-container">
-        <img class="gaugeLayer background" th:src="@{/images/gauges/background.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/gauges/writings/{writing}.svg(writing=${writing})}"/>
-        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
+        <img class="gaugeLayer background" th:src="@{/images/{theme}/gauges/background.png(theme=${theme})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/gauges/writings/{writing}.svg(theme=${theme},writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/bezel_shadow.png(theme=${theme})}"/>
 
         <div class="gaugeLayer shadowContainer">
-            <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dials/dial_shadow.png}"/>
+            <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/{theme}/dials/dial_shadow.png(theme=${theme})}"/>
         </div>
-        <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/dials/{dial}.svg(dial=${dial})}"/>
+        <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/{dial}.svg(theme=${theme},dial=${dial})}"/>
 
-        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>
     </div>
 </th:block>
 
 <th:block th:fragment="_disk(writing, dialId, diskId)">
     <div class="dial-container">
-        <img class="gaugeLayer background" th:src="@{/images/gauges/background.png}"/>
-        <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/gauges/gauge_disk_time.svg}"/>
-        <img class="gaugeLayer" th:src="@{/images/gauges/writings/{writing}.svg(writing=${writing})}"/>
-        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
+        <img class="gaugeLayer background" th:src="@{/images/{theme}/gauges/background.png(theme=${theme})}"/>
+        <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/{theme}/gauges/gauge_disk_time.svg(theme=${theme})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/gauges/writings/{writing}.svg(theme=${theme}, writing=${writing})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/bezel_shadow.png(theme=${theme})}"/>
 
         <div class="gaugeLayer shadowContainer">
-            <img th:id="${dialId+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/dials/dial_shadow_perforated.png}"/>
+            <img th:id="${dialId+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/{theme}/dials/dial_shadow_perforated.png(theme=${theme})}"/>
         </div>
-        <img th:id="${dialId}" class="gaugeLayer dial" th:src="@{/images/dials/dial_perforated.svg}"/>
+        <img th:id="${dialId}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/dial_perforated.svg(theme=${theme})}"/>
 
-        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer gaugeGlass"  th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>
     </div>
 </th:block>
 
 <th:block th:fragment="core_status()">
     <div class="dial-container">
-        <img class="gaugeLayer background" th:src="@{/images/core_status/background_core_status.png}"/>
+        <img class="gaugeLayer background" th:src="@{/images/{theme}/core_status/background_core_status.png(theme=${theme})}"/>
 
         <div class="nixieTubeContainer gaugeLayer">
-            <img id="coreStatus0" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus1" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus2" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus3" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus4" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus5" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus6" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
-            <img id="coreStatus7" class="nixieTube" th:src="@{/images/core_status/nixie_blank.png}"/>
+            <img id="coreStatus0" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus1" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus2" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus3" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus4" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus5" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus6" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
+            <img id="coreStatus7" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
         </div>
 
-        <img class="gaugeLayer gaugeGlass" th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer gaugeGlass" th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>
     </div>
 </th:block>
 
 <th:block th:fragment="blank()">
     <div class="dial-container">
-        <img class="gaugeLayer" th:src="@{/images/background_blank.png}"/>
-        <img class="gaugeLayer" th:src="@{/images/bezel_shadow.png}"/>
-        <img class="gaugeLayer gaugeGlass" th:src="@{/images/glass.png}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/background_blank.png(theme=${theme})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/bezel_shadow.png(theme=${theme})}"/>
+        <img class="gaugeLayer gaugeGlass" th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>
     </div>
 </th:block>

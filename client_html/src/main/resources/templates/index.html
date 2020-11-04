@@ -9,7 +9,7 @@
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
 </head>
-<body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" th:style="'background:url('+ @{/images/background_dark_wood_1920_1080.jpg} +');'">  
+<body th:attr="data-theme=${theme},data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" th:style="'background:url('+ @{/images/{theme}/background.jpg(theme=${theme})} +');'">  
     <div class="row">
         <th:block th:replace="~{gauge::_( 'percent_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>
         <th:block th:replace="~{gauge::core_status()}"></th:block>

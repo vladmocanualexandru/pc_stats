@@ -1,6 +1,7 @@
 var POLL_PERIOD = 1000;
 var pollUrl = $("body").attr("data-pollUrl");
 var noCpuCores;
+var theme = $("body").attr("data-theme");
 
 var dialIds = [
     {id: "cpuLoadDial", maxRotation: 270}, 
@@ -40,16 +41,14 @@ function updateCoreStatus(loads){
             load = Math.round(loads[index]/10);
             let newState;
             if (load<10) {
-                newState = `/pcstats_client/images/core_status/nixie_${load}.png`;
-                // $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/core_status/nixie_${load}.png`);
+                newState = `/pcstats_client/images/${theme}/core_status/nixie_${load}.png`;
             } else {
-                newState = `/pcstats_client/images/core_status/nixie_dash.png`;
-                // $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dash.png");
+                newState = `/pcstats_client/images/${theme}/core_status/nixie_dash.png`;
             }
 
             changeCoreStatus(index, newState);
         } else {
-            $(`#coreStatus${index}`).attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
+            $(`#coreStatus${index}`).attr("src", `/pcstats_client/images/${theme}/core_status/nixie_dot.png`);
         }
     }
 }
@@ -128,18 +127,18 @@ function startGaugesAnimation(){
 }
 
 function disableCoreStatus(){
-    $(".nixieTube").attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
+    $(".nixieTube").attr("src", `/pcstats_client/images/${theme}/core_status/nixie_dot.png`);
 }
 
 function startCoreStatusAnimation(currentStep){
     
     setTimeout(function(){
-        $(`#coreStatus${currentStep}`).attr("src", "/pcstats_client/images/core_status/nixie_dot.png");
+        $(`#coreStatus${currentStep}`).attr("src", `/pcstats_client/images/${theme}/core_status/nixie_dot.png`);
         
         if (currentStep<7) {
             startCoreStatusAnimation(currentStep+1);
         } else {
-            $(".nixieTube").attr("src", "/pcstats_client/images/core_status/nixie_blank.png");
+            $(".nixieTube").attr("src", `/pcstats_client/images/${theme}/core_status/nixie_blank.png`);
         }
 
     }, 100);

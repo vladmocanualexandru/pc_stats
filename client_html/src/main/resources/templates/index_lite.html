@@ -10,7 +10,7 @@
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index_lite.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
 </head>
-<body th:attr="data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated"  th:style="'overflow-y: hidden; background:url('+ @{/images/background_dark_wood_800_480.jpg} +');'">
+<body th:attr="data-theme=${theme},data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated"  th:style="'overflow-y: hidden; background:url('+ @{/images/{theme}/background_lite.jpg(theme=${theme}) +');'">
     
     <div class="row">
         <th:block th:replace="~{gauge::_( 'percent_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>

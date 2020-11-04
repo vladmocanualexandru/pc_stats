@@ -16,7 +16,7 @@ public class PollingController {
     @Value("${pcstats.aggregator.systemstatus.url}")
     String systemStatusInfoUrl;
 
-    @Value("${pcstats.client-html.ui.mock-data.enabled}")
+    @Value("${pcstats.client-html.mock-data.enabled}")
     Boolean useMockDataOnUi;
 
     @Autowired

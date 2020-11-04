@@ -9,7 +9,7 @@ import mov.personal.pcstats.commons.SystemStatus;
 @Component
 public class MockDataBuilder {
         
-        @Value("${pcstats.client-html.ui.mock-data.useSubtleVariation}")
+        @Value("${pcstats.client-html.mock-data.useSubtleVariation}")
         Boolean useSubtleVariation;
 
         public SystemInfo buildInfo() {

@@ -14,10 +14,13 @@ import mov.personal.pcstats.commons.SystemInfo;
 @Controller
 public class MainController {
     
+    @Value("${pcstats.client-html.theme}")
+    String theme;
+
     @Value("${pcstats.aggregator.systeminfo.url}")
     String systemInfoUrl;
 
-    @Value("${pcstats.client-html.ui.mock-data.enabled}")
+    @Value("${pcstats.client-html.mock-data.enabled}")
     Boolean useMockDataOnUi;
 
     @Autowired
@@ -39,6 +42,7 @@ public class MainController {
         
         model.addAttribute("systemInfo", systemInfo);
         model.addAttribute("currentTime", new Date());
+        model.addAttribute("theme", theme);
         
         return "index";
     }
@@ -56,6 +60,7 @@ public class MainController {
 
         model.addAttribute("systemInfo", systemInfo);
         model.addAttribute("currentTime", new Date());
+        model.addAttribute("theme", theme);
 
         return "index_lite";
     }
