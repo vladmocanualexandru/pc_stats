@@ -20,6 +20,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<org.json.version>20160810</org.json.version>
+		<jwmi.version>1.6.4</jwmi.version>
 		<mov.personal.pcstats.commons.version>1.0</mov.personal.pcstats.commons.version>
 	</properties>
 
@@ -52,6 +53,20 @@
 			<artifactId>json</artifactId>
 			<version>${org.json.version}</version>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>com.profesorfalken</groupId>
+			<artifactId>WMI4Java</artifactId>
+			<version>${jwmi.version}</version>
+		</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/net.synedra/WMI4Java -->
+		<dependency>
+			<groupId>net.synedra</groupId>
+			<artifactId>WMI4Java</artifactId>
+			<version>${jwmi.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
