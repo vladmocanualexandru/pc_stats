@@ -17,7 +17,7 @@ public class MainController {
     @Value("${pcstats.client-html.theme}")
     String theme;
 
-    @Value("${pcstats.aggregator.systeminfo.url}")
+    @Value("${pcstats.aggregator.system-info-url}")
     String systemInfoUrl;
 
     @Value("${pcstats.client-html.mock-data.enabled}")
