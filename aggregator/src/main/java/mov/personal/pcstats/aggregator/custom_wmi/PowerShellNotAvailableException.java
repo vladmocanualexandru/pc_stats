@@ -24,6 +24,11 @@ package mov.personal.pcstats.aggregator.custom_wmi;
  */
 public class PowerShellNotAvailableException extends RuntimeException {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     PowerShellNotAvailableException(String message) {
         super(message);
     }
