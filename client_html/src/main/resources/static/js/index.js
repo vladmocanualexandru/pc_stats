@@ -6,6 +6,8 @@ var theme = $("body").attr("data-theme");
 var dialIds = [
     {id: "cpuLoadDial", maxRotation: 270}, 
     {id: "cpuFanDial", maxRotation: 270}, 
+    {id: "cha1FanDial", maxRotation: 270}, 
+    {id: "cha2FanDial", maxRotation: 270}, 
     {id: "cpuTempDial", maxRotation: 270}, 
     {id: "gpuCoreLoadDial", maxRotation: 270}, 
     {id: "gpuMemLoadDial", maxRotation: 270}, 
@@ -13,6 +15,7 @@ var dialIds = [
     {id: "gpuTempDial", maxRotation: 270}, 
     {id: "ramLoadDial", maxRotation: 270},
     {id: "wattLoadDial", maxRotation: 270},
+    {id: "fpsDial", maxRotation: 270},
     {id: "timeDial", maxRotation: 348}]
 
 var diskIds = ["dayMomentDisk"]
@@ -76,7 +79,7 @@ function pollForData(){
             updateDial("cpuLoadDial", data.cpuLoad, v=>{return v*270/100-45});
             updateDial("cpuTempDial", data.cpuTemp, v=>{return Math.max(0,v-20)*270/80-45});
             updateDial("cpuFanDial", data.cpuFan, v=>{return v*270/3000-45});
-
+            
             updateDial("gpuCoreLoadDial", data.gpuLoadCore, v=>{return v*270/100-45});
             updateDial("gpuMemLoadDial", data.gpuLoadMemory, v=>{return v*270/100-45});
             updateDial("gpuTempDial", data.gpuTemp, v=>{return Math.max(0,v-20)*270/80-45});
@@ -84,6 +87,11 @@ function pollForData(){
             
             updateDial("ramLoadDial", data.ramLoad, v=>{return v*270/100-45});
             
+            updateDial("fpsDial", data.fps, v=>{return Math.min(v,180)*270/180-45});
+            
+            updateDial("cha1FanDial", data.cha1Fan, v=>{return v*270/3000-45});
+            updateDial("cha2FanDial", data.cha2Fan, v=>{return v*270/3000-45});
+
             updateDial("wattLoadDial", data.watts, v=>{return Math.max(0,(v-100))*270/600-45});
 
             updateTimeGauge(data.time);

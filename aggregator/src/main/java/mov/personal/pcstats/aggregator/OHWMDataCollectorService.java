@@ -9,7 +9,7 @@ import mov.personal.pcstats.commons.SystemInfo;
 import mov.personal.pcstats.commons.SystemStatus;
 
 @Service
-public class OHWMDataCollectorService {
+public class OHWMDataCollectorService implements SystemDataCollector{
     
     @Value("${ohwm.data.url}")
     private String dataUrl;
@@ -17,16 +17,16 @@ public class OHWMDataCollectorService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public SystemInfo getSystemInfo(){
+    public void enrichSystemInfo(SystemInfo systemInfo){
         String jsonString = restTemplate.getForObject(dataUrl, String.class);
 
-        return SystemInfoBuilder.fromOHWMJSON(jsonString);
+        SystemInfoBuilder.fromOHWMJSON(systemInfo, jsonString);
     }
 
-    public SystemStatus getSystemStatus(){
+    public void enrichSystemStatus(SystemStatus status){
         String jsonString = restTemplate.getForObject(dataUrl, String.class);
 
-        return SystemStatusBuilder.fromOHWMJSON(jsonString);
+        SystemStatusBuilder.fromOHWMJSON(status, jsonString);
     }
 
 }

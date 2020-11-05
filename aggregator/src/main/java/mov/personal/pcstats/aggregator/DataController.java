@@ -17,27 +17,41 @@ public class DataController {
     private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired
-    private OHWMDataCollectorService ohwmDataCollectorService;
+    private OHWMDataCollectorService ohwmCollectorService;
+
+    @Autowired
+    private AIDA64DataCollectorService aida64CollectorService;
  
     @CrossOrigin
     @GetMapping("/get-system-info")
     public SystemInfo getSystemInfo(){
-        return ohwmDataCollectorService.getSystemInfo();
+        SystemInfo systemInfo = new SystemInfo();
+        
+        ohwmCollectorService.enrichSystemInfo(systemInfo);
+
+        return systemInfo;
     }
 
     @CrossOrigin
     @GetMapping("/get-system-status")
     public SystemStatus getSystemStatus(){
         SystemStatus status = new SystemStatus();
+
         try {
-            status = ohwmDataCollectorService.getSystemStatus();
+            ohwmCollectorService.enrichSystemStatus(status);
         } catch(Exception e) {
             System.out.println("Error while parsing OHWM data");
         }
+
+        try {
+            aida64CollectorService.enrichSystemStatus(status);
+        } catch(Exception e) {
+            System.out.println("Error while parsing AIDA64 data");
+        }
+
         status.setTime(sdf.format(new Date()));
 
         return status;
     }
-
 
 }
