@@ -13,16 +13,17 @@
 <body th:attr="data-theme=${theme},data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" class="animated"  th:style="'background:url('+ @{/images/{theme}/background.jpg(theme=${theme})} +'); overflow-y: hidden;'">
     
     <div class="row">
+        <!-- <th:block th:replace="~{gauge::core_status()}"></th:block> -->
+        <th:block th:replace="~{gauge::_( 'percent_utilization', 'ramLoadDial', 'dial_yellow')}"></th:block>
         <th:block th:replace="~{gauge::_( 'percent_utilization', 'cpuLoadDial', 'dial_red')}"></th:block>
-        <th:block th:replace="~{gauge::core_status()}"></th:block>
         <th:block th:replace="~{gauge::_( 'degrees_temperature', 'cpuTempDial', 'dial_red')}"></th:block>
         <!-- <th:block th:replace="~{gauge::_( 'percent_utilization', 'ramLoadDial', 'dial_yellow')}"></th:block> -->
         <th:block th:replace="~{gauge::_( 'fps_frames', 'fpsDial', 'dial_yellow')}"></th:block>
     </div>
     <div class="separator"></div>
     <div class="row">
-        <th:block th:replace="~{gauge::_( 'percent_utilization_core', 'gpuCoreLoadDial', 'dial_green')}"></th:block>
         <th:block th:replace="~{gauge::_( 'percent_utilization_memory', 'gpuMemLoadDial', 'dial_green')}"></th:block>
+        <th:block th:replace="~{gauge::_( 'percent_utilization_core', 'gpuCoreLoadDial', 'dial_green')}"></th:block>
         <th:block th:replace="~{gauge::_( 'degrees_temperature', 'gpuTempDial', 'dial_green')}"></th:block>
         <th:block th:replace="~{gauge::_disk( 'time', 'timeDial', 'dayMomentDisk')}"></th:block>
     </div>
