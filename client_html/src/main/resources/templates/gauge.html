@@ -31,7 +31,8 @@
 
 <th:block th:fragment="core_status()">
     <div class="dial-container">
-        <img class="gaugeLayer background" th:src="@{/images/{theme}/core_status/background_core_status.png(theme=${theme})}"/>
+        <img class="gaugeLayer background" th:src="@{/images/{theme}/gauges/background.png(theme=${theme})}"/>
+        <img class="gaugeLayer" th:src="@{/images/{theme}/core_status/percent_core.svg(theme=${theme})}"/>
 
         <div class="nixieTubeContainer gaugeLayer">
             <img id="coreStatus0" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
@@ -44,6 +45,7 @@
             <img id="coreStatus7" class="nixieTube" th:src="@{/images/{theme}/core_status/nixie_blank.png(theme=${theme})}"/>
         </div>
 
+        <img class="gaugeLayer" th:src="@{/images/{theme}/bezel_shadow.png(theme=${theme})}"/>
         <img class="gaugeLayer gaugeGlass" th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>
     </div>
 </th:block>
