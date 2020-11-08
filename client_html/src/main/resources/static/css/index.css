@@ -54,7 +54,7 @@ div.dial-container.animated img.disk  {
 }
 
 div.dial-container img.gaugeGlass {
-    opacity:0.5;
+    opacity:0.8;
     z-index:2000;
 }
 
