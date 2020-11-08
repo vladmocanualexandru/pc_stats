@@ -48,7 +48,8 @@ import java.util.logging.Logger;
  *
  * @author Javier Garcia Alonso
  */
-public class PowerShell implements AutoCloseable {
+// public class PowerShell implements AutoCloseable {
+public class PowerShell {
 
     //Declare logger
     private static final Logger logger = Logger.getLogger(PowerShell.class.getName());
@@ -246,8 +247,10 @@ public class PowerShell implements AutoCloseable {
     public static PowerShellResponse executeSingleCommand(String command) {
         PowerShellResponse response = null;
 
-        try (PowerShell session = PowerShell.openSession()) {
+        try {
+            PowerShell session = PowerShell.openSession();
             response = session.executeCommand(command);
+            session.close();
         } catch (PowerShellNotAvailableException ex) {
             logger.log(Level.SEVERE, "PowerShell not available", ex);
         }
@@ -404,7 +407,6 @@ public class PowerShell implements AutoCloseable {
     /**
      * Closes all the resources used to maintain the PowerShell context
      */
-    @Override
     public void close() {
         if (!this.closed) {
             try {

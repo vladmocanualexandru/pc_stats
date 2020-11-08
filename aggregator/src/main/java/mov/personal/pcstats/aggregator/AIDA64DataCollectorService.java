@@ -18,9 +18,7 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
     private WMI4Java wmiNamespace;
 
 	@Override
-	public void enrichSystemInfo(SystemInfo systemInfo) {
-		// TODO Auto-generated method stub
-	}
+	public void enrichSystemInfo(SystemInfo systemInfo) {}
 
     @Override
     public void enrichSystemStatus(SystemStatus systemStatus) {

@@ -1,11 +1,11 @@
 {"properties": [
   {
-    "name": "pcstats.aggregator.systeminfo.url",
+    "name": "pcstats.aggregator.system-info-url",
     "type": "java.lang.String",
     "description": "Aggregator system info URL"
   },
   {
-    "name": "pcstats.aggregator.systemstatus.url",
+    "name": "pcstats.aggregator.system-status-url",
     "type": "java.lang.String",
     "description": "Aggregator system status URL"
   },
@@ -20,7 +20,7 @@
     "description": "Setting this flag to true, will bypass communication with aggregator and use mock data instead."
   },
   {
-    "name": "pcstats.client-html.mock-data.useSubtleVariation",
+    "name": "pcstats.client-html.mock-data.use-subtle-variation",
     "type": "java.lang.Boolean",
     "description": "Setting this flag to true, mock data will vary slightly from one poll to another."
   }

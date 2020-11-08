@@ -13,7 +13,7 @@ import mov.personal.pcstats.commons.SystemStatus;
 @RestController
 public class PollingController {
 
-    @Value("${pcstats.aggregator.systemstatus.url}")
+    @Value("${pcstats.aggregator.system-status-url}")
     String systemStatusInfoUrl;
 
     @Value("${pcstats.client-html.mock-data.enabled}")
