@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Central-pin" serif:id="Central pin">
+        <g transform="matrix(0.3609,0,0,0.3609,130.382,145.52)">
+            <circle cx="192.902" cy="150.956" r="18.09" style="fill:rgb(240,56,19);"/>
+        </g>
+        <g transform="matrix(0.121098,0,0,0.121098,176.64,181.719)">
+            <circle cx="192.902" cy="150.956" r="18.09" style="fill:rgb(241,230,222);"/>
+        </g>
+    </g>
+    <path d="M39.5,197.695L196.295,197.695L196.295,202.305L39.5,202.305L35.239,200L39.5,197.695Z" style="fill:rgb(240,56,19);"/>
+</svg>

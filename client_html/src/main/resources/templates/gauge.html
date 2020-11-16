@@ -7,6 +7,7 @@
         <div class="gaugeLayer shadowContainer">
             <img th:id="${id+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/{theme}/dials/dial_shadow.png(theme=${theme})}"/>
         </div>
+        <img th:id="${id+'Max'}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/dial_max.svg(theme=${theme})}"/>
         <img th:id="${id}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/{dial}.svg(theme=${theme},dial=${dial})}"/>
 
         <img class="gaugeLayer gaugeGlass"  th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>

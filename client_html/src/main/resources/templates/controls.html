@@ -1,0 +1,18 @@
+<th:block th:fragment="toggle_switch(id, type, state)">
+    <div th:id="${type}" th:class="${'toggle_switch_container ' + type}" onclick="controlToggleActionDispatcher(this)">
+        <input th:id="${id}" type="hidden" th:value="${state}" />
+        <img th:src="@{/images/{theme}/toggle_switch_{state}.png(theme=${theme},state=${state?'on':'off'})}"/>
+    </div>
+</th:block>
+
+<th:block th:fragment="blank()">
+    <div class="blank_control">
+    </div>
+</th:block>
+
+<th:block th:fragment="button(id, type)">
+    <div th:class="${'blank_control '+type}" th:id="${id}" onclick="controlButtonActionDispatcher(this)">
+    </div>
+</th:block>
+
+

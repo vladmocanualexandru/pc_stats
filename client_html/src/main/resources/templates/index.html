@@ -7,7 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/index.css}'>
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/toggle_switch.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/controls.css}'>
 </head>
 <body th:attr="data-theme=${theme},data-noCpuCores=${systemInfo.noCpuCores},data-pollUrl=@{/poll-system-stats}" th:style="'background:url('+ @{/images/{theme}/background.jpg(theme=${theme})} +');'">  
     <div class="row">
@@ -34,8 +34,12 @@
     <div class="row">
         <th:block th:replace="~{gauge::_( 'cha1_ventilator', 'cha1FanDial', 'dial_full')}"></th:block>
         <div class="dial-container" style="vertical-align: bottom; text-align:center;">
-            <div style="height:50px;"></div>
-            <th:block th:replace="~{toggle_switch::_( 'animationToggle', true)}"></th:block>
+            <th:block th:replace="~{controls::toggle_switch( 'recordToggle', 'rec', true)}"></th:block>
+            <th:block th:replace="~{controls::button('reset', 'reset')}"></th:block>
+        </div>
+        <div class="dial-container" style="vertical-align: bottom; text-align:center;">
+            <th:block th:replace="~{controls::toggle_switch( 'animationToggle', 'anim', true)}"></th:block>
+            <th:block th:replace="~{controls::button('reload', 'reload')}"></th:block>
         </div>
         <th:block th:replace="~{gauge::_( 'cha2_ventilator', 'cha2FanDial', 'dial_full')}"></th:block>
     </div>

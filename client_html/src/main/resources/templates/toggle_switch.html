@@ -1,6 +1,0 @@
-<th:block th:fragment="_(id, state)">
-    <div class="toggle_switch_container" onclick="toggleSwitchClick(this)">
-        <input th:id="${id}" type="hidden" th:value="${state}" />
-        <img th:src="@{/images/{theme}/toggle_switch_{state}.png(theme=${theme},state=${state?'on':'off'})}"/>
-    </div>
-</th:block>

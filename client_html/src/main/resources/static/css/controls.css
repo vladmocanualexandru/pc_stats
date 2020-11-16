@@ -1,0 +1,44 @@
+div.toggle_switch_container {
+    display: inline-block;
+    width: 190px;
+    height: 70px;
+    cursor: pointer;
+    text-align: left;
+    background-image: url(../images/dark/controls/frame.png);
+    background-size: 190px;
+    padding-top: 10px;
+    text-align: right;
+}
+
+div.toggle_switch_container.anim {
+    background-image: url(../images/dark/controls/toggle_anim.png);
+}
+
+div.toggle_switch_container.rec {
+    background-image: url(../images/dark/controls/toggle_rec.png);
+}
+
+div.toggle_switch_container img{
+    width: 40px;
+    position:absolute;
+    margin-left: -70px;
+    /* filter: drop-shadow(3px 3px 3px rgba(0,0,0,1)); */
+}
+
+div.blank_control {
+    display: inline-block;
+    width: 190px;
+    height: 80px;
+    background-image: url(../images/dark/controls/frame.png);
+    background-size: 190px;
+}
+
+div.blank_control.reload {
+    cursor: pointer;
+    background-image: url(../images/dark/controls/button_reload.png);
+}
+
+div.blank_control.reset {
+    cursor: pointer;
+    background-image: url(../images/dark/controls/button_reset.png);
+}

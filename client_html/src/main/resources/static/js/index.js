@@ -2,21 +2,38 @@ var POLL_PERIOD = 1000;
 var pollUrl = $("body").attr("data-pollUrl");
 var noCpuCores;
 var theme = $("body").attr("data-theme");
+var recMinMax = true;
 
-var dialIds = [
-    {id: "cpuLoadDial", maxRotation: 270}, 
-    {id: "cpuFanDial", maxRotation: 270}, 
-    {id: "cha1FanDial", maxRotation: 270}, 
-    {id: "cha2FanDial", maxRotation: 270}, 
-    {id: "cpuTempDial", maxRotation: 270}, 
-    {id: "gpuCoreLoadDial", maxRotation: 270}, 
-    {id: "gpuMemLoadDial", maxRotation: 270}, 
-    {id: "gpuFanDial", maxRotation: 270}, 
-    {id: "gpuTempDial", maxRotation: 270}, 
-    {id: "ramLoadDial", maxRotation: 270},
-    {id: "wattLoadDial", maxRotation: 270},
-    {id: "fpsDial", maxRotation: 270},
-    {id: "timeDial", maxRotation: 348}]
+var dialCache = [
+    {id: "cpuLoadDial", currentMax:0, maxRotation: 270}, 
+    {id: "cpuFanDial", currentMax:0, maxRotation: 270}, 
+    {id: "cha1FanDial", currentMax:0, maxRotation: 270}, 
+    {id: "cha2FanDial", currentMax:0, maxRotation: 270}, 
+    {id: "cpuTempDial", currentMax:0, maxRotation: 270}, 
+    {id: "gpuCoreLoadDial", currentMax:0, maxRotation: 270}, 
+    {id: "gpuMemLoadDial", currentMax:0, maxRotation: 270}, 
+    {id: "gpuFanDial", currentMax:0, maxRotation: 270}, 
+    {id: "gpuTempDial", currentMax:0, maxRotation: 270}, 
+    {id: "ramLoadDial", currentMax:0, maxRotation: 270},
+    {id: "wattLoadDial", currentMax:0, maxRotation: 270},
+    {id: "fpsDial", currentMax:0, maxRotation: 270},
+    {id: "timeDial", currentMax:0, maxRotation: 348}]
+
+var dialCurrentMax = {
+    "cpuLoadDial" : -57,
+    "cpuFanDial" : -57,
+    "cha1FanDial" : -57,
+    "cha2FanDial" : -57,
+    "cpuTempDial" : -57,
+    "gpuCoreLoadDial" : -57,
+    "gpuMemLoadDial" : -57,
+    "gpuFanDial" : -57,
+    "gpuTempDial" : -57,
+    "ramLoadDial" : -57,
+    "wattLoadDial" : -57,
+    "fpsDial" : -57,
+    "timeDial" : -57
+}
 
 var diskIds = ["dayMomentDisk"]
 
@@ -113,6 +130,34 @@ function pollForData(){
 function rotateDial(dialId, degrees){
     $(`#${dialId}`).css("transform", `rotate(${degrees}deg)`);
     $(`#${dialId}Shadow`).css("transform", `rotate(${degrees}deg)`);
+
+    if (recMinMax) {
+        if (dialCurrentMax[dialId] < degrees) {
+            dialCurrentMax[dialId] = degrees;
+            $(`#${dialId}Max`).css("transform", `rotate(${dialCurrentMax[dialId]}deg)`);
+        }
+    } else {
+        dialCurrentMax[dialId] = -57;
+        $(`#${dialId}Max`).css("transform", `rotate(${dialCurrentMax[dialId]}deg)`);
+    }
+}
+
+function resetDialCurrentMax(){
+    dialCurrentMax = {
+        "cpuLoadDial" : -57,
+        "cpuFanDial" : -57,
+        "cha1FanDial" : -57,
+        "cha2FanDial" : -57,
+        "cpuTempDial" : -57,
+        "gpuCoreLoadDial" : -57,
+        "gpuMemLoadDial" : -57,
+        "gpuFanDial" : -57,
+        "gpuTempDial" : -57,
+        "ramLoadDial" : -57,
+        "wattLoadDial" : -57,
+        "fpsDial" : -57,
+        "timeDial" : -57
+    }
 }
 
 function disableDial(dialId){
@@ -121,14 +166,15 @@ function disableDial(dialId){
 }
 
 function disableAllDials(){
-    dialIds.forEach(dial => {
+    dialCache.forEach(dial => {
         disableDial(dial.id)
     })
 }
 
 function startGaugesAnimation(){
-    dialIds.forEach(dial => {
+    dialCache.forEach(dial => {
         rotateDial(dial.id, dial.maxRotation-45);
+        resetDialCurrentMax();
     });
 
     setTimeout(pollForData, 1000);
@@ -152,15 +198,25 @@ function startCoreStatusAnimation(currentStep){
     }, 100);
 }
 
-$("#animationToggle").change(function(event, jt){
-    let state = jt.val() == "true";
-    
-    if (state) {
-        $(".dial-container").addClass("animated");
-    } else {
-        $(".dial-container").removeClass("animated");
+function controlButtonActionDispatcher(t){
+    let jt = $(t);
+    let id = jt.attr("id");
+
+    switch (id) {
+        case 'reload': {
+            location.reload();
+            break;
+        }
+        case 'reset': {
+            resetDialCurrentMax();
+            break;
+        }
+        default: {
+            console.log(`Untreated action for button type '${id}'`);
+        }
     }
-});
+
+}
 
 noCpuCores = $("body").attr("data-noCpuCores");
 
