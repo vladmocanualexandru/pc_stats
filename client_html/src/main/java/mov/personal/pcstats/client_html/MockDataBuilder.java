@@ -48,7 +48,9 @@ public class MockDataBuilder {
                         status.getCpuCoreLoads()[i] = Math.random()*100;
                 }
 
-                status.setTime(String.format("%d:00:00", Math.round(Math.random()*23)));
+                status.getTime()[0] = (int)Math.round(Math.random()*23);
+                status.getTime()[1] = (int)Math.round(Math.random()*59);;
+                status.getTime()[2] = 0;
 
                 return status;
 	}
@@ -82,10 +84,12 @@ public class MockDataBuilder {
                         }
                 }
 
-                int hours = Integer.parseInt(status.getTime().split(":")[0]);
-                int minutes = Integer.parseInt(status.getTime().split(":")[1])+15;
-                if (minutes == 60) { minutes = 0; hours = (hours+1)%24; }
-                status.setTime(String.format("%d:%d:00", hours, minutes));
+                int hours = status.getTime()[0];
+                int minutes = status.getTime()[1] + 10;
+                if (minutes >= 60) { minutes -= 60; hours = (hours+1)%24; }
+
+                status.getTime()[0] = hours;
+                status.getTime()[1] = minutes;
                 
                 return status;
 	}

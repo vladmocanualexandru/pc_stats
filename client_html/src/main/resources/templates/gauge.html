@@ -14,7 +14,7 @@
     </div>
 </th:block>
 
-<th:block th:fragment="_disk(writing, dialId, diskId)">
+<th:block th:fragment="_time(writing, dialId, diskId)">
     <div class="dial-container">
         <img class="gaugeLayer background" th:src="@{/images/{theme}/gauges/background.png(theme=${theme})}"/>
         <img th:id="${diskId}" class="gaugeLayer disk" th:src="@{/images/{theme}/gauges/gauge_disk_time.svg(theme=${theme})}"/>
@@ -24,6 +24,7 @@
         <div class="gaugeLayer shadowContainer">
             <img th:id="${dialId+'Shadow'}" class="dialShadow gaugeLayer" th:src="@{/images/{theme}/dials/dial_shadow_perforated.png(theme=${theme})}"/>
         </div>
+        <img th:id="${dialId+'Minutes'}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/dial_max.svg(theme=${theme})}"/>
         <img th:id="${dialId}" class="gaugeLayer dial" th:src="@{/images/{theme}/dials/dial_perforated.svg(theme=${theme})}"/>
 
         <img class="gaugeLayer gaugeGlass"  th:src="@{/images/{theme}/glass.png(theme=${theme})}"/>

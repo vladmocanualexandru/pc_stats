@@ -25,7 +25,7 @@
     </div>
     <div class="separator"></div> 
     <div class="row">
-        <th:block th:replace="~{gauge::_disk( 'time', 'timeDial', 'dayMomentDisk')}"></th:block>
+        <th:block th:replace="~{gauge::_time( 'time', 'timeDial', 'dayMomentDisk')}"></th:block>
         <th:block th:replace="~{gauge::_( 'ram_utilization', 'ramLoadDial', 'dial_yellow')}"></th:block>
         <th:block th:replace="~{gauge::_( 'watts_consumption', 'wattLoadDial', 'dial_orange')}"></th:block>
         <th:block th:replace="~{gauge::_( 'fps_frames', 'fpsDial', 'dial_yellow')}"></th:block>

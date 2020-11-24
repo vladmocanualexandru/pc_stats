@@ -73,13 +73,16 @@ function updateCoreStatus(loads){
     }
 }
 
-function updateTimeGauge(timeStr){
-    let tokens = timeStr.split(":");
-    let hours = Number(tokens[0]);
-    let minutes = Number(tokens[1]);
+function updateTimeGauge(timeArray){
+    let hours = timeArray[0];
+    let minutes = timeArray[1];
 
-    if (hours==-1) disableDial("timeDial")
+    if (hours == -1) disableDial("timeDial");
     else rotateDial("timeDial", 15 + ((hours+4)%12)*30 + (Math.floor(minutes/15)*7.5) -45);
+
+    if (minutes == -1) disableDial("timeDialMinutes");
+    else rotateDial("timeDialMinutes", minutes/60*360 + 90);
+    // else rotateDial("timeDialMinutes", Math.round(minutes/1.25)/48*360 + 90);
 
     let diskDegrees = 0-hours*15 - Math.floor(minutes/15)*3;
     $(`#dayMomentDisk`).css("transform", `rotate(${diskDegrees}deg)`);

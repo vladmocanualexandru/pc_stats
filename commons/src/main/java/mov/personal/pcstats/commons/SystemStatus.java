@@ -4,7 +4,7 @@ public class SystemStatus {
     private double cpuLoad, gpuLoadCore, gpuLoadMemory, ramLoad, cpuTemp, gpuTemp, gpuMemory, watts;
     private int cpuFan, gpuFan, cha1Fan, cha2Fan, fps;
     private double[] cpuCoreLoads = {-1f,-1f,-1f,-1f,-1f,-1f,-1f,-1f};
-    private String time = "-1:-1:-1";
+    private int[] time = {-1,-1,-1};
 
     public SystemStatus() {
         this.cpuLoad = -1f;
@@ -93,14 +93,6 @@ public class SystemStatus {
         this.cpuCoreLoads = cpuCoreLoads;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
     public int getCpuFan() {
         return cpuFan;
     }
@@ -141,6 +133,18 @@ public class SystemStatus {
         this.fps = fps;
     }
 
-    
+    public int[] getTime() {
+        return time;
+    }
+
+    public void setTime(int[] time) {
+        this.time = time;
+    }
+
+    public void setTimeFromStringArray(String[] time) {
+        this.time[0] = Integer.parseInt(time[0]);
+        this.time[1] = Integer.parseInt(time[1]);
+        this.time[2] = Integer.parseInt(time[2]);
+    }
     
 }

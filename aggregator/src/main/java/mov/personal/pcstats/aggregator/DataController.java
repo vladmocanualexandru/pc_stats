@@ -49,7 +49,7 @@ public class DataController {
             System.out.println("Error while parsing AIDA64 data");
         }
 
-        status.setTime(sdf.format(new Date()));
+        status.setTimeFromStringArray(sdf.format(new Date()).split(":"));
 
         return status;
     }
