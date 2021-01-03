@@ -28,6 +28,8 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        systemStatus.setCha1Fan(Integer.parseInt(parsedData.get("FCHA1")));
        systemStatus.setCha2Fan(Integer.parseInt(parsedData.get("FCHA2")));
        systemStatus.setFps(Integer.parseInt(parsedData.get("SFRAPS")));
+
+       systemStatus.setRamLoad(Double.parseDouble(parsedData.get("SMEMUTI")));
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){

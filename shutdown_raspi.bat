@@ -1,0 +1,1 @@
+ssh pi@192.168.1.49 sudo shutdown -h now

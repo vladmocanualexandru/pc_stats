@@ -41,6 +41,7 @@ public class DataController {
             ohwmCollectorService.enrichSystemStatus(status);
         } catch(Exception e) {
             System.out.println("Error while parsing OHWM data");
+            e.printStackTrace();
         }
 
         try {
