@@ -24,12 +24,17 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
     public void enrichSystemStatus(SystemStatus systemStatus) {
        Map<String,String> parsedData = parseData(wmiNamespace.getWMIObjectList("AIDA64_SensorValues"));
 
-       systemStatus.setCpuFan(Integer.parseInt(parsedData.get("FCPU")));
-       systemStatus.setCha1Fan(Integer.parseInt(parsedData.get("FCHA1")));
-       systemStatus.setCha2Fan(Integer.parseInt(parsedData.get("FCHA2")));
-       systemStatus.setFps(Integer.parseInt(parsedData.get("SFRAPS")));
+       String fcpu = parsedData.get("FCPU");
+       String fcha1 = parsedData.get("FCHA1");
+       String fcha2 = parsedData.get("FCHA2");
+       String sfraps = parsedData.get("SFRAPS");
+       String smemuti = parsedData.get("SMEMUTI");
 
-       systemStatus.setRamLoad(Double.parseDouble(parsedData.get("SMEMUTI")));
+       if (fcpu != null) systemStatus.setCpuFan(Integer.parseInt(fcpu));
+       if (fcha1 != null) systemStatus.setCha1Fan(Integer.parseInt(fcha1));
+       if (fcha2 != null) systemStatus.setCha2Fan(Integer.parseInt(fcha2));
+       if (sfraps != null) systemStatus.setFps(Integer.parseInt(sfraps));
+       if (smemuti != null) systemStatus.setRamLoad(Double.parseDouble(smemuti));
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){

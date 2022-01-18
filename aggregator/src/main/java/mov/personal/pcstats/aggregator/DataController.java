@@ -48,6 +48,7 @@ public class DataController {
             aida64CollectorService.enrichSystemStatus(status);
         } catch(Exception e) {
             System.out.println("Error while parsing AIDA64 data");
+			e.printStackTrace();
         }
 
         status.setTimeFromStringArray(sdf.format(new Date()).split(":"));

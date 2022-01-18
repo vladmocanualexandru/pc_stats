@@ -1,0 +1,1 @@
+cmd /c start ssh pi@192.168.1.49 ./Desktop/pcstats_browser.sh &
