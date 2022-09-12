@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Canvas gauges</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <style>
+      html, body {
+        margin:0px;
+        padding:0px;
+      }
+      body {
+         background:#000;
+      }
+    </style>
+
+</head>
+<body th:attr="data-pollUrl=@{/poll-system-stats}">  
+   <canvas width="800" height="476"></canvas>
+   
+   <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>
+   <script>
+      var pollUrl = $("body").attr("data-pollUrl");
+
+      function pollForData(){
+   
+         $.ajax({
+            url: pollUrl,
+            success: function(data){
+               // console.log(data);
+               targets[0] = data['ramLoad']
+               deltas[0] = 1.0*(targets[0]-values[0])/REFRESH_RATE
+               
+               targets[1] = data['cpuLoad']
+               deltas[1] = 1.0*(targets[1]-values[1])/REFRESH_RATE
+               
+               targets[2] = data['cpuTemp']
+               deltas[2] = 1.0*(targets[2]-values[2])/REFRESH_RATE
+               
+               targets[3] = data['fps']
+               deltas[3] = 1.0*(targets[3]-values[3])/REFRESH_RATE
+               
+               targets[4] = data['gpuLoadCore']
+               deltas[4] = 1.0*(targets[4]-values[4])/REFRESH_RATE
+               
+               targets[5] = data['gpuLoadMemory']
+               deltas[5] = 1.0*(targets[5]-values[5])/REFRESH_RATE
+               
+               targets[6] = data['gpuTemp']
+               deltas[6] = 1.0*(targets[6]-values[6])/REFRESH_RATE
+
+               timeData["hours"]["target"] = data['time'][0]
+               timeData["hours"]["delta"] = 1.0*(timeData["hours"]["target"]-timeData["hours"]["value"])/REFRESH_RATE
+               timeData["minutes"]["target"] = data['time'][1]
+               timeData["minutes"]["delta"] = 1.0*(timeData["minutes"]["target"]-timeData["minutes"]["value"])/REFRESH_RATE
+
+            },
+            error: function(e1,e2,e3,e4){
+               console.log(e1,e2,e3,e4);
+            }
+         });
+         
+      }
+
+      function degreesToRads(degrees){
+         return Math.PI*(degrees+90)/180
+      }
+
+      var gaugesMeta = [
+         {
+            labelTop: 'RAM',
+            labelBottom: 'LOAD %',
+            color: '#ffd500',
+            minValue: 0,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 90
+         },
+         {
+            labelTop: 'CPU',
+            labelBottom: 'LOAD %',
+            color: '#FF5E00',
+            minValue: 0,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 90
+         },
+         {
+            labelTop: 'CPU',
+            labelBottom: 'TEMP °C',
+            color: '#FF5E00',
+            minValue: 15,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 80
+         },
+         {
+            labelTop: 'FPS',
+            labelBottom: '',
+            color: '#EEEEEE',
+            minValue: 0,
+            maxValue: 300,
+            minAlertThreshold: 30,
+            maxAlertThreshold: 9999
+         },
+         {
+            labelTop: 'GPU',
+            labelBottom: 'CORE %',
+            color: '#76B900',
+            minValue: 0,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 90
+         },
+         {
+            labelTop: 'GPU',
+            labelBottom: 'MEM %',
+            color: '#76B900',
+            minValue: 0,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 90
+         },
+         {
+            labelTop: 'GPU',
+            labelBottom: 'TEMP °C',
+            color: '#76B900',
+            minValue: 15,
+            maxValue: 100,
+            minAlertThreshold: 0,
+            maxAlertThreshold: 80
+         }
+      ]
+
+      function randomColor(){
+         let colorPool = ['#f2ff00',
+            '#000dff',
+            '#00ff0d',
+            '#62ff00',
+            '#00eaff',
+            '#00ffc4',
+            '#00eaff',
+            '#ff0000',
+            '#ff9500',
+            '#a6ff00',
+            '#0088ff',
+            '#00ffd9']
+
+         return colorPool[Math.round(Math.random()*(colorPool.length-1))]
+      }
+
+      const REFRESH_RATE = 20 // in Hz; should be divider of 1000
+
+      const GAUGE_COUNT = 7
+      const GAUGE_LINE_SIZE = 4
+
+      const START_RAD=degreesToRads(30)
+      const END_RAD=degreesToRads(330)
+
+      const START_TIME_RAD=degreesToRads(180)
+      const END_TIME_RAD=degreesToRads(540)
+
+      const GAUGE_OFFSET_X = 15
+      const GAUGE_OFFSET_Y = 10
+      const GAUGE_SPACING_X = 15
+      const GAUGE_SPACING_Y = 10
+
+      const GAUGE_SIZE=160
+      const RING_WIDTH=20
+
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+
+      let values = []
+      let targets = []
+      let deltas = []
+      let colors = []
+
+      let timeData = {hours:{value:0, target:0, delta:0}, minutes:{value:0,target:0, delta:0}}
+
+      for (var i =0; i<GAUGE_COUNT; i++) {
+         values.push(0)
+         targets.push(0)
+         deltas.push(0)
+         colors.push(randomColor())
+      }
+
+      function chooseTargets(){
+         for (var i=0; i<GAUGE_COUNT; i++) {
+            targets[i] = Math.random()*100
+            deltas[i] = 1.0*(targets[i]-values[i])/REFRESH_RATE
+         }
+
+         timeData["hours"]["target"] = Math.round(Math.random()*100)
+         timeData["hours"]["delta"] = 1.0*(timeData["hours"]["target"]-timeData["hours"]["value"])/REFRESH_RATE
+         timeData["minutes"]["target"] = Math.round(Math.random()*100)
+         timeData["minutes"]["delta"] = 1.0*(timeData["minutes"]["target"]-timeData["minutes"]["value"])/REFRESH_RATE
+      }
+
+      function drawGauge(i, col, line) {
+
+         gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+         gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH) + GAUGE_SIZE/2+RING_WIDTH/2
+
+         ctx.lineWidth = RING_WIDTH
+         ctx.lineCap = 'round'
+
+          
+         let delta = deltas[i]
+         let target = targets[i]
+         
+         values[i] += delta
+         let value = values[i]
+         
+         if ((delta > 0 && value>=target) || (delta < 0 && value<=target)) {
+            deltas[i] = 0
+            values[i] = target
+            value=values[i]
+         } 
+
+         alertEnabled = false
+         if (value<gaugesMeta[i]['minAlertThreshold'] || value>gaugesMeta[i]['maxAlertThreshold']) {
+            alertEnabled = true
+         } 
+
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2, START_RAD, END_RAD)
+         ctx.strokeStyle = alertEnabled?'#8E0000':'#111111'
+         ctx.stroke();
+         
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2, START_RAD, START_RAD + value/gaugesMeta[i]['maxValue']*(END_RAD-START_RAD))
+         ctx.strokeStyle =  alertEnabled?'#ff0000':gaugesMeta[i]['color']
+         ctx.stroke();
+
+         ctx.font = "14px Arial"
+         ctx.fillStyle = alertEnabled?'#ff0000':'white'
+         ctx.textAlign = "center"
+         ctx.fillText(gaugesMeta[i]['labelTop'], gaugeX, gaugeY-35)
+         
+         ctx.font = "46px Arial"
+         ctx.fillStyle = alertEnabled?'#ff0000':'white'
+         ctx.textAlign = "center"
+         ctx.fillText(Math.round(value), gaugeX, gaugeY+16)
+
+
+         ctx.font = "14px Arial"
+         ctx.fillStyle = alertEnabled?'#ff0000':'white'
+         ctx.textAlign = "center"
+         ctx.fillText(gaugesMeta[i]['labelBottom'], gaugeX, gaugeY+45)
+      }
+
+      function adjustTimeData(dict) {
+         let delta = dict["delta"]
+         let target = dict["target"]
+         
+         dict["value"] += delta
+         let value = dict["value"]
+         
+         if ((delta > 0 && value>=target) || (delta < 0 && value<=target)) {
+            dict["delta"] = 0
+            dict["value"] = target
+         } 
+      }
+
+      function drawTimeGauge(col, line){
+         gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+         gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH) + GAUGE_SIZE/2+RING_WIDTH/2
+
+         ctx.lineWidth = RING_WIDTH-5
+         ctx.lineCap = 'round'
+
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+5, 0, 2*Math.PI)
+         ctx.strokeStyle = '#111111'
+         ctx.stroke();
+
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-15, 0, 2*Math.PI)
+         ctx.strokeStyle = '#111111'
+         ctx.stroke();
+
+         adjustTimeData(timeData["hours"])
+         adjustTimeData(timeData["minutes"])
+
+         let hours = timeData["hours"]["value"]
+         let minutes = timeData["minutes"]["value"]
+
+         let hoursColor = '#3c00ff'
+         let minutesColor = '#210099'
+
+         if (hours>=6 && hours<=18) {
+            hoursColor = '#ffd500'
+            minutesColor = '#917900'
+         } 
+         
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+5, START_TIME_RAD, START_TIME_RAD + (Math.round(hours)%12)/12*(END_TIME_RAD-START_TIME_RAD))
+         ctx.strokeStyle = hoursColor
+         ctx.stroke();
+
+         ctx.beginPath()
+         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-15, START_TIME_RAD, START_TIME_RAD + minutes/60*(END_TIME_RAD-START_TIME_RAD))
+         ctx.strokeStyle = minutesColor
+         ctx.stroke();
+
+         ctx.font = "36px Arial"
+         ctx.fillStyle = "white";
+         ctx.textAlign = "center"
+         ctx.fillText(Math.round(hours), gaugeX, gaugeY-8)
+
+         ctx.font = "36px Arial"
+         ctx.fillStyle = "white";
+         ctx.textAlign = "center"
+         ctx.fillText(Math.round(minutes), gaugeX, gaugeY+30)
+      }
+
+      function drawGauges(){
+         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+         // bounds rectangle
+         // ctx.beginPath();
+         // ctx.rect(0, 0, canvas.width, canvas.height);
+         // ctx.lineWidth = "1";
+         // ctx.strokeStyle = "red";
+         // ctx.stroke();
+
+         for (var i=0; i<GAUGE_COUNT; i++) {
+            drawGauge(i, i%GAUGE_LINE_SIZE, Math.floor(i/GAUGE_LINE_SIZE))
+         }
+
+         drawTimeGauge(3,1)
+      }
+
+      let cycles = 0
+      function tick() {
+         drawGauges()
+
+         if (cycles%REFRESH_RATE==0) {
+            // chooseTargets()
+            pollForData()
+         }
+         cycles+=1
+      }
+
+      setInterval(tick, 1000/REFRESH_RATE)
+   
+   </script>
+</body>
+</html>

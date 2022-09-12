@@ -65,4 +65,40 @@ public class MainController {
         return "index_lite";
     }
 
+    @GetMapping("/rings24")
+    public String showRingsIndex24(Model model){
+        
+        // SystemInfo systemInfo = new SystemInfo();
+        
+        // if (!useMockDataOnUi) {
+        //     systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
+        // } else {
+        //     systemInfo = mockBuilder.buildInfo();
+        // }
+
+        // model.addAttribute("systemInfo", systemInfo);
+        // model.addAttribute("currentTime", new Date());
+        // model.addAttribute("theme", theme);
+
+        return "index_rings24";
+    }
+
+    @GetMapping("/rings")
+    public String showRingsIndex(Model model){
+        
+        // SystemInfo systemInfo = new SystemInfo();
+        
+        // if (!useMockDataOnUi) {
+        //     systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
+        // } else {
+        //     systemInfo = mockBuilder.buildInfo();
+        // }
+
+        // model.addAttribute("systemInfo", systemInfo);
+        // model.addAttribute("currentTime", new Date());
+        // model.addAttribute("theme", theme);
+
+        return "index_rings";
+    }
+
 }
