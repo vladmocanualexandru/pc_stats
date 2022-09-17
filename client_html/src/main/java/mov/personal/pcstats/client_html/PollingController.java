@@ -29,14 +29,18 @@ public class PollingController {
     public SystemStatus pollStats(HttpSession session){
         SystemStatus status = new SystemStatus();
         
-        if (!useMockDataOnUi){
-            status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
-        } else {
-            //check for mock system status seed
-            status = session.getAttribute("mockSystemStatusSeed")!=null?mockBuilder.buildStatus((SystemStatus)session.getAttribute("mockSystemStatusSeed")):mockBuilder.buildStatus();
+        try {
+            if (!useMockDataOnUi){
+                status = restTemplate.getForObject(systemStatusInfoUrl, SystemStatus.class);
+            } else {
+                //check for mock system status seed
+                status = session.getAttribute("mockSystemStatusSeed")!=null?mockBuilder.buildStatus((SystemStatus)session.getAttribute("mockSystemStatusSeed")):mockBuilder.buildStatus();
 
-            //update mock system status seed
-            session.setAttribute("mockSystemStatusSeed", status);
+                //update mock system status seed
+                session.setAttribute("mockSystemStatusSeed", status);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return status;

@@ -1,5 +1,7 @@
 package mov.personal.pcstats.aggregator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,17 +26,30 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
     public void enrichSystemStatus(SystemStatus systemStatus) {
        Map<String,String> parsedData = parseData(wmiNamespace.getWMIObjectList("AIDA64_SensorValues"));
 
-       String fcpu = parsedData.get("FCPU");
-       String fcha1 = parsedData.get("FCHA1");
-       String fcha2 = parsedData.get("FCHA2");
        String sfraps = parsedData.get("SFRAPS");
        String smemuti = parsedData.get("SMEMUTI");
+       String scpuuti = parsedData.get("SCPUUTI");
+       String tcpu = parsedData.get("TCPU");
+       String tgpu = parsedData.get("TGPU1");
+       
+       String sgpu1uti = parsedData.get("SGPU1UTI");
+       String sgpu1biuti = parsedData.get("SGPU1BIUTI");
+       String sgpu1mcuti = parsedData.get("SGPU1MCUTI");
+       String sgpu1veuti = parsedData.get("SGPU1VEUTI");
 
-       if (fcpu != null) systemStatus.setCpuFan(Integer.parseInt(fcpu));
-       if (fcha1 != null) systemStatus.setCha1Fan(Integer.parseInt(fcha1));
-       if (fcha2 != null) systemStatus.setCha2Fan(Integer.parseInt(fcha2));
+       List<String> keys = new ArrayList<String>(parsedData.keySet());
+       Collections.sort(keys);
+
        if (sfraps != null) systemStatus.setFps(Integer.parseInt(sfraps));
        if (smemuti != null) systemStatus.setRamLoad(Double.parseDouble(smemuti));
+       if (scpuuti != null) systemStatus.setCpuLoad(Double.parseDouble(scpuuti));
+       if (tcpu != null) systemStatus.setCpuTemp(Double.parseDouble(tcpu));
+       if (tgpu != null) systemStatus.setGpuTemp(Double.parseDouble(tgpu));
+
+       if (sgpu1uti != null) systemStatus.setGpuLoadCore(Double.parseDouble(sgpu1uti));
+       if (sgpu1biuti != null) systemStatus.setGpuLoadBusInterface(Double.parseDouble(sgpu1biuti));
+       if (sgpu1mcuti != null) systemStatus.setGpuLoadMemory(Double.parseDouble(sgpu1mcuti));
+       if (sgpu1veuti != null) systemStatus.setGpuLoadVideoEngine(Double.parseDouble(sgpu1veuti));
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){
