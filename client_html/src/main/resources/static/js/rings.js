@@ -1,4 +1,4 @@
-const REFRESH_RATE = 20 // in Hz; should be divider of 1000
+const REFRESH_RATE = 40 // in Hz; should be divider of 1000
 
 const GAUGE_OFFSET_X = 15
 const GAUGE_OFFSET_Y = 10
