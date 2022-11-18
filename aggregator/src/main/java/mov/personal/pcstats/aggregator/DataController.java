@@ -20,6 +20,9 @@ public class DataController {
 
     @Autowired
     private AIDA64DataCollectorService aida64CollectorService;
+
+    @Autowired
+    private MqttDataCollectorService mqttDataCollectorService;
  
     // @CrossOrigin
     // @GetMapping("/get-system-info")
@@ -47,6 +50,13 @@ public class DataController {
             aida64CollectorService.enrichSystemStatus(status);
         } catch(Exception e) {
             System.out.println("Error while parsing AIDA64 data");
+			e.printStackTrace();
+        }
+
+        try {
+            mqttDataCollectorService.enrichSystemStatus(status);
+        } catch(Exception e) {
+            System.out.println("Error while parsing Mqtt data");
 			e.printStackTrace();
         }
 

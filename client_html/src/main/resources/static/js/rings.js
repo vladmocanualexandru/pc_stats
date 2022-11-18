@@ -1,3 +1,5 @@
+const SHOW_BOUNDS_RECTANGLE = false
+
 const REFRESH_RATE = 40 // in Hz; should be divider of 1000
 
 const GAUGE_OFFSET_X = 15
@@ -11,20 +13,19 @@ const RING_WIDTH=20
 const POLL_URL = $("body").attr("data-pollUrl");
 const GAUGES = {
     "ramLoad": {
-        "position":{"line":0, "col":0},
         "meta":{
-            "labelTop": 'RAM',
-            "labelBottom": 'LOAD %',
+            "type":"single",
+            "line":0, 
+            "col":0,
+            "labels": ['RAM','LOAD', '', '%'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#FFDC00'},
+            "getColor": () => {return '#FF00FF'},
             "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
@@ -32,15 +33,15 @@ const GAUGES = {
         }]
     },
     "cpuLoad": {
-        "position":{"line":0, "col":1},
         "meta":{
-            "labelTop": 'CPU',
-            "labelBottom": 'LOAD %',
+            "type":"single",
+            "line":0, 
+            "col":1,
+            "labels": ['CPU','LOAD','','%'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
-        "data":[{
+        "data":[
+        {
             "value":-1,
             "target":-1,
             "delta":-1,
@@ -53,13 +54,12 @@ const GAUGES = {
         }]
     },
     "cpuTemp": {
-        "position":{"line":0, "col":2},
         "meta":{
-            "labelTop": 'CPU',
-            "labelBottom": 'TEMP °C',
+            "type":"single",
+            "line":0, 
+            "col":2,
+            "labels": ['CPU','TEMP','','°C'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
@@ -74,13 +74,12 @@ const GAUGES = {
         }]
     },
     "fps": {
-        "position":{"line":0, "col":3},
         "meta":{
-            "labelTop": '',
-            "labelBottom": 'FPS',
+            "type":"single",
+            "line":0, 
+            "col":3,
+            "labels": ['FPS','','',''],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
@@ -94,14 +93,13 @@ const GAUGES = {
             "maxAlertThreshold": 9999
         }]
     },
-    "gpuLoadCore": {
-        "position":{"line":1, "col":0},
+    "gpuLoadMem": {
         "meta":{
-            "labelTop": 'GPU',
-            "labelBottom": 'CORE %',
+            "type":"single",
+            "line":1, 
+            "col":0,
+            "labels": ['GPU','MEM','','%'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
@@ -115,14 +113,13 @@ const GAUGES = {
             "maxAlertThreshold": 90
         }]
     },
-    "gpuLoadMemory": {
-        "position":{"line":1, "col":1},
+    "gpuLoadCore": {
         "meta":{
-            "labelTop": 'GPU',
-            "labelBottom": 'MEM %',
+            "type":"single",
+            "line":1, 
+            "col":1,
+            "labels": ['GPU','CORE','','%'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
@@ -137,13 +134,12 @@ const GAUGES = {
         }]
     },
     "gpuTemp": {
-        "position":{"line":1, "col":2},
         "meta":{
-            "labelTop": 'GPU',
-            "labelBottom": 'TEMP °C',
+            "type":"single",
+            "line":1, 
+            "col":2,
+            "labels": ['GPU','TEMP', '', '°C'],
             "maxValueRecordEnabled": true,
-            "startRad":degreesToRads(30),
-            "endRad":degreesToRads(330),
         },
         "data":[{
             "value":-1,
@@ -157,52 +153,76 @@ const GAUGES = {
             "maxAlertThreshold": 80
         }]
     },
-    "time": {
-        "position":{"line":1, "col":3},
+    "powerConsumption": {
         "meta":{
-            "labelTop": '',
-            "labelBottom": '',
-            "maxValueRecordEnabled": false,
-            "startRad":degreesToRads(180),
-            "endRad":degreesToRads(540),
+            "type":"single",
+            "line":1, 
+            "col":3,
+            "labels": ['LOAD','', '', 'W'],
+            "maxValueRecordEnabled": true,
         },
-        "data":[
-            {
-                "value":-1,
-                "target":-1,
-                "delta":-1,
-                "maxRecordedValue":-1,
-                "getColor": getHoursColor,
-                "minValue": 0,
-                "maxValue": 24,
-                "minAlertThreshold": 0,
-                "maxAlertThreshold": 24
-            },
-            {
-                "value":-1,
-                "target":-1,
-                "delta":-1,
-                "maxRecordedValue":-1,
-                "getColor": getMinutesColor,
-                "minValue": 0,
-                "maxValue": 60,
-                "minAlertThreshold": 0,
-                "maxAlertThreshold": 60
-            },
-            {
-                "value":-1,
-                "target":-1,
-                "delta":-1,
-                "maxRecordedValue":-1,
-                "getColor": getSecondsColor,
-                "minValue": 0,
-                "maxValue": 60,
-                "minAlertThreshold": 0,
-                "maxAlertThreshold": 60
-            }
-        ]
-    }
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#FFDC00'},
+            "minValue": 0,
+            "maxValue": 600,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 601
+        }]
+    },
+    // "time": {
+    //     "meta":{
+    //         "type":"time",
+    //         "line":1, 
+    //         "col":3,
+    //         "labels": ['','','','',''],
+    //         "maxValueRecordEnabled": false,
+    //     },
+    //     "data":[
+    //         {
+    //             "value":-1,
+    //             "target":-1,
+    //             "delta":-1,
+    //             "maxRecordedValue":-1,
+    //             "getColor": getHoursColor,
+    //             "minValue": 0,
+    //             "maxValue": 24,
+    //             "minAlertThreshold": 0,
+    //             "maxAlertThreshold": 24
+    //         },
+    //         {
+    //             "value":-1,
+    //             "target":-1,
+    //             "delta":-1,
+    //             "maxRecordedValue":-1,
+    //             "getColor": getMinutesColor,
+    //             "minValue": 0,
+    //             "maxValue": 60,
+    //             "minAlertThreshold": 0,
+    //             "maxAlertThreshold": 60
+    //         },
+    //         {
+    //             "value":-1,
+    //             "target":-1,
+    //             "delta":-1,
+    //             "maxRecordedValue":-1,
+    //             "getColor": getSecondsColor,
+    //             "minValue": 0,
+    //             "maxValue": 60,
+    //             "minAlertThreshold": 0,
+    //             "maxAlertThreshold": 60
+    //         }
+    //     ]
+    // }
 
+}
+
+const TIME_DATA = {
+    "hours":-1,
+    "minutes":-1
 }
 
 function getHoursColor() {
@@ -241,21 +261,26 @@ function pollForData(){
     jQuery.ajax({
         url: POLL_URL,
         success: function(data){
+            brokenConnection = false
 
             setDataValue(GAUGES['ramLoad']['data'][0], data['ramLoad'])
+
             setDataValue(GAUGES['cpuLoad']['data'][0], data['cpuLoad'])
             setDataValue(GAUGES['cpuTemp']['data'][0], data['cpuTemp'])
+
             setDataValue(GAUGES['fps']['data'][0], data['fps'])
+
             setDataValue(GAUGES['gpuLoadCore']['data'][0], data['gpuLoadCore'])
-            setDataValue(GAUGES['gpuLoadMemory']['data'][0], data['gpuLoadMemory'])
+            setDataValue(GAUGES['gpuLoadMem']['data'][0], data['gpuLoadMemory'])
             setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuTemp'])
+            
+            setDataValue(GAUGES['powerConsumption']['data'][0], data['powerConsumption'])
 
-            setDataValue(GAUGES['time']['data'][0], data['time'][0])
-            setDataValue(GAUGES['time']['data'][1], data['time'][1])
-            setDataValue(GAUGES['time']['data'][2], data['time'][2])
-
+            TIME_DATA["hours"] = data['time'][0]
+            TIME_DATA["minutes"] = data['time'][1]
         },
         error: function(e1,e2,e3,e4){
+            brokenConnection = true
             console.log(e1,e2,e3,e4);
         }
     });
@@ -270,6 +295,8 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 let showMaxModeEnabled = false
+let alertTestModeEnabled = false
+let brokenConnection = false
 
 function adjustGaugesData(label){
 
@@ -292,28 +319,32 @@ function adjustGaugesData(label){
  
 }
 
-function drawGauge(label) {
-    let gauge =  GAUGES[label]
-    let gaugeData =  gauge['data']
-
-    if (gaugeData.length == 1) {
-        drawGauge_single(gauge, gaugeData[0])
-    } else if (gaugeData.length == 2) {
-        drawGauge_double(gauge, gaugeData[0], gaugeData[1])
-    } else if (gaugeData.length == 3) {
-        drawGauge_triple(gauge, gaugeData[0], gaugeData[1], gaugeData[2])
-    }
-    
+const GAUGE_LOGIC={
+    'single':drawGauge_single,
+    'double':drawGauge_double,
 }
 
-function drawGauge_single(gauge, data) {
-    let col = gauge['position']['col']
-    let line = gauge['position']['line']
-    let gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
-    let gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH) + GAUGE_SIZE/2+RING_WIDTH/2
+function drawGauge(label) {
+    let gauge =  GAUGES[label]
+    let meta = gauge['meta']
+    let gaugeData =  gauge['data']
 
-    ctx.lineWidth = RING_WIDTH
+    GAUGE_LOGIC[meta['type']](meta, gaugeData)
+}
+
+function drawGauge_single(meta, dataSet) {
+    let data = dataSet[0]
+
+    let col = meta['col']
+    let line = meta['line']
+    let gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+    let gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+
+    ctx.lineWidth = RING_WIDTH-10
     ctx.lineCap = 'round'
+
+    let startRad = degreesToRads(35)
+    let endRad = degreesToRads(325)
 
     let value = data['value']
     
@@ -322,6 +353,7 @@ function drawGauge_single(gauge, data) {
         alertEnabled = true
     } 
 
+    alertEnabled = alertEnabled || alertTestModeEnabled
     if (alertEnabled) {
         ctx.beginPath();
         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + RING_WIDTH, 0, 2 * Math.PI, false);
@@ -329,63 +361,72 @@ function drawGauge_single(gauge, data) {
         ctx.fill();
     } else {
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2, gauge['meta']['startRad'], gauge['meta']['endRad'])
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2 + 10, startRad, endRad)
         ctx.strokeStyle = '#111111'
         ctx.stroke();
 
-        if (gauge['meta']['maxValueRecordEnabled']) {
+        if (meta['maxValueRecordEnabled']) {
+            let maxValueBubbleRad = startRad + Math.max(data['maxRecordedValue'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (endRad - startRad)
+            
             ctx.beginPath()
-            ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2, gauge['meta']['startRad'], gauge['meta']['startRad'] + Math.max(data['maxRecordedValue'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (gauge['meta']['endRad'] - gauge['meta']['startRad']))
+            ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, maxValueBubbleRad, maxValueBubbleRad)
             ctx.strokeStyle = '#444444'
             ctx.stroke();
         }
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2, gauge['meta']['startRad'], gauge['meta']['startRad'] + Math.max(data['value'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (gauge['meta']['endRad'] - gauge['meta']['startRad']))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, startRad + Math.max(data['value'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
         ctx.strokeStyle = data['getColor']()
         ctx.stroke();
     }
-
-    ctx.font = "14px Arial"
-    ctx.fillStyle = alertEnabled?'#000000':((showMaxModeEnabled&&gauge['meta']['maxValueRecordEnabled'])?'#999999':'#ffffff')
-    ctx.textAlign = "center"
-    ctx.fillText(gauge['meta']['labelTop'], gaugeX, gaugeY-35)
     
-    ctx.font = "46px Arial"
-    ctx.fillStyle = alertEnabled?'#000000':((showMaxModeEnabled&&gauge['meta']['maxValueRecordEnabled'])?'#999999':'#ffffff')
+    ctx.font = "14px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":'#999999'
     ctx.textAlign = "center"
-    ctx.fillText(Math.round(showMaxModeEnabled?data['maxRecordedValue']:data['value']), gaugeX, gaugeY+16)
+    ctx.fillText(meta['labels'][1], gaugeX, gaugeY-35)
 
+    let label = Math.round(showMaxModeEnabled?data['maxRecordedValue']:data['value'])
+    label += meta['labels'][2]
+
+    ctx.font = "46px Arial"
+    ctx.fillStyle = alertEnabled?'#000000':((showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':'#ffffff')
+    ctx.textAlign = "center"
+    ctx.fillText(label, gaugeX, gaugeY+16)
 
     ctx.font = "14px Arial"
-    ctx.fillStyle = alertEnabled?'#000000':((showMaxModeEnabled&&gauge['meta']['maxValueRecordEnabled'])?'#999999':'#ffffff')
+    ctx.fillStyle = alertEnabled?"#000000":'#999999'
     ctx.textAlign = "center"
-    ctx.fillText(gauge['meta']['labelBottom'], gaugeX, gaugeY+45)
+    ctx.fillText(meta['labels'][3], gaugeX, gaugeY+45)
+
+    ctx.font = "18px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":'#ffffff'
+    ctx.textAlign = "center"
+    ctx.fillText(meta['labels'][0], gaugeX, gaugeY+80)
 }
 
-function drawGauge_double(gauge, data1, data2) {
+function drawGauge_double(meta, dataSet) {
+    let data0 = dataSet[0]
+    let data1 = dataSet[1]
 
-}
-
-function drawGauge_triple(gauge, data1, data2, data3) {
-    let col = gauge['position']['col']
-    let line = gauge['position']['line']
+    let col = meta['col']
+    let line = meta['line']
 
     let gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
     let gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH) + GAUGE_SIZE/2+RING_WIDTH/2
 
     ctx.lineWidth = RING_WIDTH-10
     ctx.lineCap = 'round'
+
+    let startRad = degreesToRads(35)
+    let endRad = degreesToRads(325)
     
     let alertEnabled = false
-    if (data1['value']<data1['minAlertThreshold'] || data1['value']>data1['maxAlertThreshold'] || 
-        data2['value']<data2['minAlertThreshold'] || data2['value']>data2['maxAlertThreshold'] ||
-        data3['value']<data3['minAlertThreshold'] || data3['value']>data3['maxAlertThreshold'] ) {
-
+    if (data0['value']<data0['minAlertThreshold'] || data0['value']>data0['maxAlertThreshold'] || 
+        data1['value']<data1['minAlertThreshold'] || data1['value']>data1['maxAlertThreshold']) {
             alertEnabled = true
-
     } 
 
+    alertEnabled = alertEnabled || alertTestModeEnabled
     if (alertEnabled) {
         ctx.beginPath();
         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + RING_WIDTH, 0, 2 * Math.PI, false);
@@ -393,62 +434,189 @@ function drawGauge_triple(gauge, data1, data2, data3) {
         ctx.fill();
     } else {
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, gauge['meta']['startRad'], gauge['meta']['endRad'])
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2 + 10, startRad, endRad)
         ctx.strokeStyle = '#111111'
         ctx.stroke();
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, gauge['meta']['startRad'], gauge['meta']['endRad'])
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2 - 5, startRad, endRad)
         ctx.strokeStyle = '#111111'
         ctx.stroke();
 
-        ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, gauge['meta']['startRad'], gauge['meta']['endRad'])
-        ctx.strokeStyle = '#111111'
-        ctx.stroke();
+        if (meta['maxValueRecordEnabled']) {
+            let maxValueBubbleRad = startRad + Math.max(data1['maxRecordedValue'] - data1['minValue'], 0) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad)
+            
+            ctx.beginPath()
+            ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, maxValueBubbleRad, maxValueBubbleRad)
+            ctx.strokeStyle = '#444444'
+            ctx.stroke();
+
+            maxValueBubbleRad = startRad + Math.max(data0['maxRecordedValue'] - data0['minValue'], 0) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad)
+
+            ctx.beginPath()
+            ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, maxValueBubbleRad, maxValueBubbleRad)
+            ctx.strokeStyle = '#444444'
+            ctx.stroke();
+        }
         
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, gauge['meta']['startRad'], gauge['meta']['startRad'] + data3['value']/data3['maxValue']*(gauge['meta']['endRad']-gauge['meta']['startRad']))
-        ctx.strokeStyle = data3['getColor']()
-        ctx.stroke();
-        
-        ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, gauge['meta']['startRad'], gauge['meta']['startRad'] + data2['value']/data2['maxValue']*(gauge['meta']['endRad']-gauge['meta']['startRad']))
-        ctx.strokeStyle = data2['getColor']()
-        ctx.stroke();
-
-        ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, gauge['meta']['startRad'], gauge['meta']['startRad'] + data1['value']/data1['maxValue']*(gauge['meta']['endRad']-gauge['meta']['startRad']))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + Math.max(data1['value'] - data1['minValue'], 0) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad))
         ctx.strokeStyle = data1['getColor']()
         ctx.stroke();
+
+        ctx.beginPath()
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + Math.max(data0['value'] - data0['minValue'], 0) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad))
+        ctx.strokeStyle = data0['getColor']()
+        ctx.stroke();
+
     }
 
-    ctx.font = "36px Arial"
-    ctx.fillStyle = alertEnabled?"#000000":"white";
+    ctx.font = "14px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":'#999999'
     ctx.textAlign = "center"
-    ctx.fillText(String(Math.round(data1['value'])), gaugeX, gaugeY-5) //.padStart(2, '0')
+    ctx.fillText(meta['labels'][1], gaugeX, gaugeY-35)
 
-    ctx.font = "36px Arial"
-    ctx.fillStyle = alertEnabled?"#000000":"white";
+    let label = Math.round(showMaxModeEnabled?data0['maxRecordedValue']:data0['value'])
+    label += meta['labels'][2]
+
+    ctx.font = "24px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":((showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':'#ffffff')
     ctx.textAlign = "center"
-    ctx.fillText(String(Math.round(data2['value'])), gaugeX, gaugeY+33)
+    ctx.fillText(label, gaugeX, gaugeY-6)
+
+
+    label = Math.round(showMaxModeEnabled?data1['maxRecordedValue']:data1['value'])
+    label += meta['labels'][4]
+
+    ctx.font = "24px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":((showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':'#ffffff')
+    ctx.textAlign = "center"
+    ctx.fillText(label, gaugeX, gaugeY+23)
+
+    ctx.font = "14px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":'#999999'
+    ctx.textAlign = "center"
+    ctx.fillText(meta['labels'][3], gaugeX, gaugeY+45)
+
+    ctx.font = "18px Arial"
+    ctx.fillStyle = alertEnabled?"#000000":'#ffffff'
+    ctx.textAlign = "center"
+    ctx.fillText(meta['labels'][0], gaugeX, gaugeY+80)
+
+}
+
+// The old time gauge - kept for the proper ring sizes
+//
+// function drawGauge_triple(meta, dataSet) {
+//     let data0 = dataSet[0]
+//     let data1 = dataSet[1]
+//     let data2 = dataSet[2]
+
+//     let col = meta['col']
+//     let line = meta['line']
+
+//     let gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+//     let gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH) + GAUGE_SIZE/2+RING_WIDTH/2
+
+//     ctx.lineWidth = RING_WIDTH-10
+//     ctx.lineCap = 'round'
+
+//     let startRad = degreesToRads(180)
+//     let endRad = degreesToRads(540)
+    
+//     let alertEnabled = false
+//     if (data0['value']<data0['minAlertThreshold'] || data0['value']>data0['maxAlertThreshold'] || 
+//         data1['value']<data1['minAlertThreshold'] || data1['value']>data1['maxAlertThreshold'] ||
+//         data2['value']<data2['minAlertThreshold'] || data2['value']>data2['maxAlertThreshold'] ) {
+//             alertEnabled = true
+//     } 
+
+//     alertEnabled = alertEnabled || alertTestModeEnabled || brokenConnection
+//     if (alertEnabled) {
+//         ctx.beginPath();
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + RING_WIDTH, 0, 2 * Math.PI, false);
+//         ctx.fillStyle = '#FF0000';
+//         ctx.fill();
+
+//         if (brokenConnection) {
+//             ctx.font = "14px Arial"
+//             ctx.fillStyle = "#000000"
+//             ctx.textAlign = "center"
+//             ctx.fillText('SERVER', gaugeX, gaugeY-35)
+
+//             ctx.fillText('DOWN', gaugeX, gaugeY+45)
+//         }
+//     } else {
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, endRad)
+//         ctx.strokeStyle = '#111111'
+//         ctx.stroke();
+
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, endRad)
+//         ctx.strokeStyle = '#111111'
+//         ctx.stroke();
+
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, startRad, endRad)
+//         ctx.strokeStyle = '#111111'
+//         ctx.stroke();
+        
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + data2['value']/data2['maxValue']*(endRad-startRad))
+//         ctx.strokeStyle = data2['getColor']()
+//         ctx.stroke();
+        
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + data1['value']/data1['maxValue']*(endRad-startRad))
+//         ctx.strokeStyle = data1['getColor']()
+//         ctx.stroke();
+
+//         ctx.beginPath()
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, startRad, startRad + data0['value']/data0['maxValue']*(endRad-startRad))
+//         ctx.strokeStyle = data0['getColor']()
+//         ctx.stroke();
+//     }
+
+//     let label = String(Math.round(data0['value'])).padStart(2, '0') + ':' + String(Math.round(data1['value'])).padStart(2, '0')
+
+//     ctx.font = "32px Arial"
+//     ctx.fillStyle = alertEnabled?"#000000":"white";
+//     ctx.textAlign = "center"
+//     ctx.fillText(label, gaugeX, gaugeY+11)
+// }
+
+function drawTime() {
+    let label = String(Math.round(TIME_DATA["hours"])).padStart(2, '0') + ':' + String(Math.round(TIME_DATA["minutes"])).padStart(2, '0')
+
+    $("#timeCell").html(label)
+
+    // ctx.font = "32px Arial"
+    // ctx.fillStyle = "white"
+    // ctx.textAlign = "center"
+    // ctx.fillText(label, 400, 443)
 }
 
 function updateGauges(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // bounds rectangle
-    // ctx.beginPath();
-    // ctx.rect(0, 0, canvas.width, canvas.height);
-    // ctx.lineWidth = "1";
-    // ctx.strokeStyle = "red";
-    // ctx.stroke();
+    if (SHOW_BOUNDS_RECTANGLE) {
+        ctx.beginPath();
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+    }
 
     for (label in GAUGES) {
         adjustGaugesData(label)
         drawGauge(label)
     }
+}
 
+function toggleAlert(){
+    alertTestModeEnabled = !alertTestModeEnabled
 }
 
 function toggleMaxValuesView(elem){
@@ -476,6 +644,7 @@ function reloadPage(){
 let cycles = 0
 function tick() {
     updateGauges()
+    drawTime()
     
     if (cycles%REFRESH_RATE==0) {
         pollForData()

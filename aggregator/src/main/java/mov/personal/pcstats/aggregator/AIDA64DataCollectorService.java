@@ -33,9 +33,8 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        String tgpu = parsedData.get("TGPU1");
        
        String sgpu1uti = parsedData.get("SGPU1UTI");
-       String sgpu1biuti = parsedData.get("SGPU1BIUTI");
        String sgpu1mcuti = parsedData.get("SGPU1MCUTI");
-       String sgpu1veuti = parsedData.get("SGPU1VEUTI");
+
 
        List<String> keys = new ArrayList<String>(parsedData.keySet());
        Collections.sort(keys);
@@ -47,9 +46,8 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        if (tgpu != null) systemStatus.setGpuTemp(Double.parseDouble(tgpu));
 
        if (sgpu1uti != null) systemStatus.setGpuLoadCore(Double.parseDouble(sgpu1uti));
-       if (sgpu1biuti != null) systemStatus.setGpuLoadBusInterface(Double.parseDouble(sgpu1biuti));
        if (sgpu1mcuti != null) systemStatus.setGpuLoadMemory(Double.parseDouble(sgpu1mcuti));
-       if (sgpu1veuti != null) systemStatus.setGpuLoadVideoEngine(Double.parseDouble(sgpu1veuti));
+       
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){

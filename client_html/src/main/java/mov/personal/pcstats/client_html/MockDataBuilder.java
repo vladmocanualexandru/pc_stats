@@ -37,7 +37,6 @@ public class MockDataBuilder {
 
                 status.setFps((int)Math.round(Math.random()*180));
 
-
                 status.getTime()[0] = (int)Math.round(Math.random()*23);
                 status.getTime()[1] = (int)Math.round(Math.random()*59);;
                 status.getTime()[2] = 0;
@@ -51,7 +50,7 @@ public class MockDataBuilder {
 
 		status.setCpuLoad(Math.max(0, Math.min(100, status.getCpuLoad()+(Math.random()*10-5))));
                 status.setCpuTemp(Math.max(20, Math.min(100, status.getCpuTemp()+(Math.random()*8-4))));
-                
+
                 status.setGpuLoadCore(Math.max(0, Math.min(100, status.getGpuLoadCore()+(Math.random()*10-5))));
                 status.setGpuLoadMemory(Math.max(0, Math.min(100, status.getGpuLoadMemory()+(Math.random()*10-5))));
                 status.setGpuTemp(Math.max(20, Math.min(100, status.getGpuTemp()+(Math.random()*8-4))));
