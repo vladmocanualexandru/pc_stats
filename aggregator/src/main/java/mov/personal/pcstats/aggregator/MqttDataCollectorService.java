@@ -3,7 +3,7 @@ package mov.personal.pcstats.aggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import mov.personal.pcstats.aggregator.PcStatsAggregatorApplication.AqirysPowerConsumptionTopic;
+import mov.personal.pcstats.aggregator.mqtt.AqirysPowerConsumptionTopic;
 import mov.personal.pcstats.commons.SystemInfo;
 import mov.personal.pcstats.commons.SystemStatus;
 
@@ -20,7 +20,7 @@ public class MqttDataCollectorService implements SystemDataCollector{
     @Override
     public void enrichSystemStatus(SystemStatus systemStatus) {
         aqirysPowerConsumptionTopic.connect();
-        
+
         systemStatus.setPowerConsumption(aqirysPowerConsumptionTopic.getValue());
     }
     
