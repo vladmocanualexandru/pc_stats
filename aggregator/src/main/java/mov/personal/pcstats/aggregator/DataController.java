@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mov.personal.pcstats.aggregator.mqtt.DataCollectorService;
 import mov.personal.pcstats.commons.SystemStatus;
 
 @RestController
@@ -22,7 +23,7 @@ public class DataController {
     private AIDA64DataCollectorService aida64CollectorService;
 
     @Autowired
-    private MqttDataCollectorService mqttDataCollectorService;
+    private DataCollectorService mqttDataCollectorService;
  
     // @CrossOrigin
     // @GetMapping("/get-system-info")

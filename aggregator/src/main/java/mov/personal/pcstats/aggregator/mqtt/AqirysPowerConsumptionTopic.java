@@ -1,11 +1,7 @@
 package mov.personal.pcstats.aggregator.mqtt;
 
 public class AqirysPowerConsumptionTopic extends SingleValueTopic{
-    private Integer value; 
-
-    public AqirysPowerConsumptionTopic(String endpoint, String username, String password) {
-        super(endpoint, username, password);
-    }
+    private Integer value = -1; 
 
     @Override
     protected String getTopic() {
