@@ -1,10 +1,12 @@
 import paho.mqtt.client as mqtt
-import json, os
+import json, os, time
 
 def handle_command(command):
     if command == 'shutdown':
         os.system("sudo shutdown now -h")
         exit(1)
+    elif command == 'test':
+        print('TEST')
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -20,6 +22,27 @@ def on_message(client, userdata, msg):
     handle_command(payload['command'])
     # print(msg.topic+" "+str(msg.payload))
 
+# Ensure there broker is reachable
+PING_ATTEMPTS = 60
+
+brokerReachable = False
+for a in range(PING_ATTEMPTS):
+    response = os.system("ping -c 1 " + os.getenv('MQTT_BROKER'))
+
+    if response == 0:
+        print("Broker reachable!")
+        brokerReachable = True
+        break
+    else:
+        print ('Ping to ',os.getenv('MQTT_BROKER'), 'failed. Attempt=', a)
+
+    time.sleep(1)
+
+if not brokerReachable:
+    print("Unable to reach broker.")
+    exit(1)
+
+# Connect to mqtt broker
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
