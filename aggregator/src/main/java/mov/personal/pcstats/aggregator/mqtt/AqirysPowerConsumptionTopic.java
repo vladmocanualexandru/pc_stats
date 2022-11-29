@@ -5,7 +5,7 @@ public class AqirysPowerConsumptionTopic extends SingleValueTopic{
 
     @Override
     protected String getTopic() {
-        return "hass-out/aqirys-power-consumption";
+        return "homeassistant/out/aqirys-power-consumption";
     }
 
     @Override

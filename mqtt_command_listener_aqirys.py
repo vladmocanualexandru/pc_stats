@@ -3,9 +3,9 @@ import json, os, time
 
 def handle_command(command):
     if command == 'shutdown':
-        os.system("sudo shutdown now -h")
+        os.system("shutdown /s /f /t 0")
         exit(1)
-    elif command == 'test':
+    if command == 'test':
         print('TEST')
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -22,12 +22,12 @@ def on_message(client, userdata, msg):
     handle_command(payload['command'])
     # print(msg.topic+" "+str(msg.payload))
 
-# Ensure there broker is reachable
+# Ensure the broker is reachable
 PING_ATTEMPTS = 60
 
 brokerReachable = False
 for a in range(PING_ATTEMPTS):
-    response = os.system("ping -c 1 " + os.getenv('MQTT_BROKER'))
+    response = os.system("ping -n 1 " + os.getenv('MQTT_BROKER'))
 
     if response == 0:
         print("Broker reachable!")
