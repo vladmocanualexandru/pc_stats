@@ -4,6 +4,7 @@ public class SystemStatus {
     private double gpuLoadCore, gpuLoadMemory;
     private double cpuLoad, ramLoad, cpuTemp, gpuTemp;
     private double powerConsumption;
+    private double bandwidthDownRate, bandwidthUpRate;
     private int fps = -1;
     private int[] time = {-1,-1,-1};
 
@@ -14,6 +15,8 @@ public class SystemStatus {
         this.ramLoad = -1f;
         this.cpuTemp = -1f;
         this.gpuTemp = -1f;
+        this.bandwidthDownRate = -1f;
+        this.bandwidthUpRate = -1f;
         this.powerConsumption = -1f;
     }
 
@@ -88,13 +91,29 @@ public class SystemStatus {
     public void setPowerConsumption(double powerConsumption) {
         this.powerConsumption = powerConsumption;
     }
+
     
+    
+    public double getBandwidthDownRate() {
+        return bandwidthDownRate;
+    }
+
+    public void setBandwidthDownRate(double bandwidthDownRate) {
+        this.bandwidthDownRate = bandwidthDownRate;
+    }
+
+    public double getBandwidthUpRate() {
+        return bandwidthUpRate;
+    }
+
+    public void setBandwidthUpRate(double bandwidthUpRate) {
+        this.bandwidthUpRate = bandwidthUpRate;
+    }
+
     public void setTimeFromStringArray(String[] time) {
         this.time[0] = Integer.parseInt(time[0]);
         this.time[1] = Integer.parseInt(time[1]);
         this.time[2] = Integer.parseInt(time[2]);
     }
-
-
     
 }

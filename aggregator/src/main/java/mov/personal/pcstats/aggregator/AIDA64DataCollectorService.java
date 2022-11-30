@@ -35,6 +35,9 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        String sgpu1uti = parsedData.get("SGPU1UTI");
        String sgpu1mcuti = parsedData.get("SGPU1MCUTI");
 
+       String snic2dlrate = parsedData.get("SNIC2DLRATE");
+       String snic2ulrate = parsedData.get("SNIC2ULRATE");
+
 
        List<String> keys = new ArrayList<String>(parsedData.keySet());
        Collections.sort(keys);
@@ -47,7 +50,9 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
 
        if (sgpu1uti != null) systemStatus.setGpuLoadCore(Double.parseDouble(sgpu1uti));
        if (sgpu1mcuti != null) systemStatus.setGpuLoadMemory(Double.parseDouble(sgpu1mcuti));
-       
+
+       if (snic2dlrate != null) systemStatus.setBandwidthDownRate(Double.parseDouble(snic2dlrate));
+       if (snic2ulrate != null) systemStatus.setBandwidthUpRate(Double.parseDouble(snic2ulrate)); 
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){
