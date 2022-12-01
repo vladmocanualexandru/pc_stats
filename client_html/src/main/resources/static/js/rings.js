@@ -47,12 +47,13 @@ const GAUGES = {
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#ED1C24'},
+            "getColor": () => {return '#FF0000'},
+            // "getColor": () => {return '#ED1C24'},
             "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 90
+            "maxAlertThreshold": 999
         }]
     },
     "cpuTemp": {
@@ -68,7 +69,8 @@ const GAUGES = {
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#ED1C24'},
+            "getColor": () => {return '#FF0000'},
+            // "getColor": () => {return '#ED1C24'},
             "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 45,
             "maxValue": 100,
@@ -89,7 +91,8 @@ const GAUGES = {
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#EEEEEE'},
+            "getColor": () => {return '#FF6700'},
+            // "getColor": () => {return '#EEEEEE'},
             "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 0,
             "maxValue": 300,
@@ -102,7 +105,7 @@ const GAUGES = {
             "type":"double",
             "line":1, 
             "col":0,
-            "labels": ['MBps','DOWN','','UP',''],
+            "labels": ['MB/s','DOWN','','UP',''],
             "maxValueRecordEnabled": true,
         },
         "data":[{
@@ -148,7 +151,7 @@ const GAUGES = {
             "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 90
+            "maxAlertThreshold": 999
         },
         {
             "value":-1,
@@ -160,7 +163,7 @@ const GAUGES = {
             "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 90
+            "maxAlertThreshold": 999
         }]
     },
     // "gpuLoadMem": {
@@ -242,7 +245,7 @@ const GAUGES = {
             "minValue": 0,
             "maxValue": 600,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 601
+            "maxAlertThreshold": 400
         }]
     },
     // "time": {
@@ -446,7 +449,7 @@ function drawGauge_single(meta, dataSet) {
         ctx.stroke();
 
         if (meta['maxValueRecordEnabled']) {
-            let maxValueBubbleRad = startRad + Math.max(data['maxRecordedValue'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (endRad - startRad)
+            let maxValueBubbleRad = startRad + Math.max(data['maxRecordedValue'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad)
             
             ctx.beginPath()
             ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, maxValueBubbleRad, maxValueBubbleRad)
@@ -455,7 +458,7 @@ function drawGauge_single(meta, dataSet) {
         }
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, startRad + Math.max(data['value'] - data['minValue'], 0) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, startRad + Math.max(data['value'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
         ctx.strokeStyle = data['getColor']()
         ctx.stroke();
     }
@@ -525,14 +528,14 @@ function drawGauge_double(meta, dataSet) {
         ctx.stroke();
 
         if (meta['maxValueRecordEnabled']) {
-            let maxValueBubbleRad = startRad + Math.max(data1['maxRecordedValue'] - data1['minValue'], 0) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad)
+            let maxValueBubbleRad = startRad + Math.max(data1['maxRecordedValue'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad)
             
             ctx.beginPath()
             ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, maxValueBubbleRad, maxValueBubbleRad)
             ctx.strokeStyle = '#444444'
             ctx.stroke();
 
-            maxValueBubbleRad = startRad + Math.max(data0['maxRecordedValue'] - data0['minValue'], 0) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad)
+            maxValueBubbleRad = startRad + Math.max(data0['maxRecordedValue'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad)
 
             ctx.beginPath()
             ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, maxValueBubbleRad, maxValueBubbleRad)
@@ -541,12 +544,12 @@ function drawGauge_double(meta, dataSet) {
         }
         
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + Math.max(data1['value'] - data1['minValue'], 0) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + Math.max(data1['value'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad))
         ctx.strokeStyle = data1['getColor']()
         ctx.stroke();
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + Math.max(data0['value'] - data0['minValue'], 0) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + Math.max(data0['value'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad))
         ctx.strokeStyle = data0['getColor']()
         ctx.stroke();
 
