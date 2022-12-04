@@ -3,6 +3,9 @@ package mov.personal.pcstats.commons;
 public class SystemStatus {
     private double gpuLoadCore, gpuLoadMemory;
     private double cpuLoad, ramLoad, cpuTemp, gpuTemp;
+    private double moboTemp, chipsetTemp;
+    private double ssd1Temp1, ssd1Temp2;
+    private double ssd2Temp1, ssd2Temp2;
     private double powerConsumption;
     private double bandwidthDownRate, bandwidthUpRate;
     private int fps = -1;
@@ -18,6 +21,12 @@ public class SystemStatus {
         this.bandwidthDownRate = -1f;
         this.bandwidthUpRate = -1f;
         this.powerConsumption = -1f;
+        this.moboTemp = -1f;
+        this.chipsetTemp = -1f;
+        this.ssd1Temp1 = -1f;
+        this.ssd1Temp2 = -1f;
+        this.ssd2Temp1 = -1f;
+        this.ssd2Temp2 = -1f;
     }
 
     public double getCpuLoad() {
@@ -38,6 +47,22 @@ public class SystemStatus {
 
     public double getCpuTemp() {
         return cpuTemp;
+    }
+
+    public double getMoboTemp() {
+        return moboTemp;
+    }
+
+    public void setMoboTemp(double moboTemp) {
+        this.moboTemp = moboTemp;
+    }
+
+    public double getChipsetTemp() {
+        return chipsetTemp;
+    }
+
+    public void setChipsetTemp(double chipsetTemp) {
+        this.chipsetTemp = chipsetTemp;
     }
 
     public void setCpuTemp(double cpuTemp) {
@@ -114,6 +139,38 @@ public class SystemStatus {
         this.time[0] = Integer.parseInt(time[0]);
         this.time[1] = Integer.parseInt(time[1]);
         this.time[2] = Integer.parseInt(time[2]);
+    }
+
+    public double getSsd1Temp1() {
+        return ssd1Temp1;
+    }
+
+    public void setSsd1Temp1(double ssd1Temp1) {
+        this.ssd1Temp1 = ssd1Temp1;
+    }
+
+    public double getSsd1Temp2() {
+        return ssd1Temp2;
+    }
+
+    public void setSsd1Temp2(double ssd1Temp2) {
+        this.ssd1Temp2 = ssd1Temp2;
+    }
+
+    public double getSsd2Temp1() {
+        return ssd2Temp1;
+    }
+
+    public void setSsd2Temp1(double ssd2Temp1) {
+        this.ssd2Temp1 = ssd2Temp1;
+    }
+
+    public double getSsd2Temp2() {
+        return ssd2Temp2;
+    }
+
+    public void setSsd2Temp2(double ssd2Temp2) {
+        this.ssd2Temp2 = ssd2Temp2;
     }
     
 }

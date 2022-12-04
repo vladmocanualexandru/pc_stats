@@ -12,33 +12,56 @@ const RING_WIDTH=20
 
 const POLL_URL = $("body").attr("data-pollUrl");
 const GAUGES = {
-    "ramLoad": {
+    // "ramLoad": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":0, 
+    //         "col":0,
+    //         "labels": ['RAM','LOAD', '', '%'],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[{
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#FF00FF'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 0,
+    //         "maxValue": 100,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 75
+    //     }]
+    // },
+    // "cpuLoad": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":0, 
+    //         "col":1,
+    //         "labels": ['CPU','LOAD','','%'],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[
+    //     {
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#FF0000'},
+    //         // "getColor": () => {return '#ED1C24'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 0,
+    //         "maxValue": 100,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 999
+    //     }]
+    // },
+    "cpuRamLoad": {
         "meta":{
-            "type":"single",
+            "type":"double",
             "line":0, 
             "col":0,
-            "labels": ['RAM','LOAD', '', '%'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FF00FF'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 75
-        }]
-    },
-    "cpuLoad": {
-        "meta":{
-            "type":"single",
-            "line":0, 
-            "col":1,
-            "labels": ['CPU','LOAD','','%'],
+            "labels": ['LOAD','CPU %','','RAM %', ''],
             "maxValueRecordEnabled": true,
         },
         "data":[
@@ -48,95 +71,29 @@ const GAUGES = {
             "delta":-1,
             "maxRecordedValue":-1,
             "getColor": () => {return '#FF0000'},
-            // "getColor": () => {return '#ED1C24'},
             "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
             "maxAlertThreshold": 999
-        }]
-    },
-    "cpuTemp": {
-        "meta":{
-            "type":"single",
-            "line":0, 
-            "col":2,
-            "labels": ['CPU','TEMP','','°C'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FF0000'},
-            // "getColor": () => {return '#ED1C24'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 45,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
-        }]
-    },
-    "fps": {
-        "meta":{
-            "type":"single",
-            "line":0, 
-            "col":3,
-            "labels": ['FPS','','',''],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FF6700'},
-            // "getColor": () => {return '#EEEEEE'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 300,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 9999
-        }]
-    },
-    "net": {
-        "meta":{
-            "type":"double",
-            "line":1, 
-            "col":0,
-            "labels": ['MB/s','DOWN','','UP',''],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#00FFFF'},
-            "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
-            "minValue": 0,
-            "maxValue": 12000,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 99999
         },
         {
             "value":-1,
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#00A8A8'},
-            "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
+            "getColor": () => {return '#BC00BC'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 0,
-            "maxValue": 12000,
+            "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 99999
+            "maxAlertThreshold": 75
         }]
     },
     "gpuLoad": {
         "meta":{
             "type":"double",
-            "line":1, 
+            "line":0, 
             "col":1,
             "labels": ['GPU','CORE %','','MEM %',''],
             "maxValueRecordEnabled": true,
@@ -166,6 +123,274 @@ const GAUGES = {
             "maxAlertThreshold": 999
         }]
     },
+    "net": {
+        "meta":{
+            "type":"double",
+            "line":0, 
+            "col":2,
+            "labels": ['MB/s','DOWN','','UP',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#00FFFF'},
+            "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
+            "minValue": 0,
+            "maxValue": 12000,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 99999
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#00A8A8'},
+            "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
+            "minValue": 0,
+            "maxValue": 12000,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 99999
+        }]
+    },
+    // "cpuTemp": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":0, 
+    //         "col":2,
+    //         "labels": ['CPU','TEMP','','°C'],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[{
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#FF0000'},
+    //         // "getColor": () => {return '#ED1C24'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 45,
+    //         "maxValue": 100,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 80
+    //     }]
+    // },
+    "misc": {
+        "meta":{
+            "type":"double",
+            "line":0, 
+            "col":3,
+            "labels": ['MISC','FPS','','LOAD W',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#FF6700'},
+            // "getColor": () => {return '#EEEEEE'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 0,
+            "maxValue": 300,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 9999
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#FFDC00'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 0,
+            "maxValue": 600,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 400
+        }]
+    },
+    "cpuGpuTemp": {
+        "meta":{
+            "type":"double",
+            "line":1, 
+            "col":0,
+            "labels": ['TEMP','CPU °C','','GPU °C',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#FF0000'},
+            // "getColor": () => {return '#ED1C24'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#4D7700'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        }]
+    },
+    "moboChipsetTemp": {
+        "meta":{
+            "type":"double",
+            "line":1, 
+            "col":1,
+            "labels": ['TEMP','MOBO °C','','CHIP °C',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#8700FF'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#5500A5'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        }]
+    },
+    "ssd1Temp": {
+        "meta":{
+            "type":"double",
+            "line":1, 
+            "col":2,
+            "labels": ['SSD 1','TEMP1 °C','','TEMP2 °C',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#0087FF'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#0060B5'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        }]
+    },
+    "ssd2Temp": {
+        "meta":{
+            "type":"double",
+            "line":1, 
+            "col":3,
+            "labels": ['SSD 2','TEMP1 °C','','TEMP2 °C',''],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#0087FF'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        },
+        {
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#0060B5'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 40,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 80
+        }]
+    },
+
+    // "fps": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":0, 
+    //         "col":3,
+    //         "labels": ['FPS','','',''],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[{
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#FF6700'},
+    //         // "getColor": () => {return '#EEEEEE'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 0,
+    //         "maxValue": 300,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 9999
+    //     }]
+    // },
+    // "powerConsumption": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":1, 
+    //         "col":3,
+    //         "labels": ['LOAD','', '', 'W'],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[{
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#FFDC00'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 0,
+    //         "maxValue": 600,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 400
+    //     }]
+    // },
+
+
     // "gpuLoadMem": {
     //     "meta":{
     //         "type":"single",
@@ -206,48 +431,28 @@ const GAUGES = {
     //         "maxAlertThreshold": 90
     //     }]
     // },
-    "gpuTemp": {
-        "meta":{
-            "type":"single",
-            "line":1, 
-            "col":2,
-            "labels": ['GPU','TEMP', '', '°C'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#76B900'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 40,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
-        }]
-    },
-    "powerConsumption": {
-        "meta":{
-            "type":"single",
-            "line":1, 
-            "col":3,
-            "labels": ['LOAD','', '', 'W'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FFDC00'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 600,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 400
-        }]
-    },
+    // "gpuTemp": {
+    //     "meta":{
+    //         "type":"single",
+    //         "line":1, 
+    //         "col":2,
+    //         "labels": ['GPU','TEMP', '', '°C'],
+    //         "maxValueRecordEnabled": true,
+    //     },
+    //     "data":[{
+    //         "value":-1,
+    //         "target":-1,
+    //         "delta":-1,
+    //         "maxRecordedValue":-1,
+    //         "getColor": () => {return '#76B900'},
+    //         "getDataLabel": (data) => { return Math.round(data)}, 
+    //         "minValue": 40,
+    //         "maxValue": 100,
+    //         "minAlertThreshold": 0,
+    //         "maxAlertThreshold": 80
+    //     }]
+    // },
+
     // "time": {
     //     "meta":{
     //         "type":"time",
@@ -338,26 +543,46 @@ function pollForData(){
         success: function(data){
             brokenConnection = false
 
-            setDataValue(GAUGES['ramLoad']['data'][0], data['ramLoad'])
+            // setDataValue(GAUGES['ramLoad']['data'][0], data['ramLoad'])
+            // setDataValue(GAUGES['cpuLoad']['data'][0], data['cpuLoad'])
 
-            setDataValue(GAUGES['cpuLoad']['data'][0], data['cpuLoad'])
-            setDataValue(GAUGES['cpuTemp']['data'][0], data['cpuTemp'])
-
-            setDataValue(GAUGES['fps']['data'][0], data['fps'])
-
+            setDataValue(GAUGES['cpuRamLoad']['data'][0], data['cpuLoad'])
+            setDataValue(GAUGES['cpuRamLoad']['data'][1], data['ramLoad'])
+            // setDataValue(GAUGES['cpuTemp']['data'][0], data['cpuTemp'])
+            
+            
+            
             setDataValue(GAUGES['gpuLoad']['data'][0], data['gpuLoadCore'])
             setDataValue(GAUGES['gpuLoad']['data'][1], data['gpuLoadMemory'])
-
+            
             setDataValue(GAUGES['net']['data'][0], data['bandwidthDownRate'])
             setDataValue(GAUGES['net']['data'][1], data['bandwidthUpRate'])
-
-
+            
+            
             // setDataValue(GAUGES['gpuLoadCore']['data'][0], data['gpuLoadCore'])
             // setDataValue(GAUGES['gpuLoadMem']['data'][0], data['gpuLoadMemory'])
-
-            setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuTemp'])
             
-            setDataValue(GAUGES['powerConsumption']['data'][0], data['powerConsumption'])
+            // setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuTemp'])
+            
+            setDataValue(GAUGES['misc']['data'][0], data['fps'])
+            setDataValue(GAUGES['misc']['data'][1], data['powerConsumption'])
+
+            setDataValue(GAUGES['cpuGpuTemp']['data'][0], data['cpuTemp'])
+            setDataValue(GAUGES['cpuGpuTemp']['data'][1], data['gpuTemp'])
+            
+            setDataValue(GAUGES['moboChipsetTemp']['data'][0], data['moboTemp'])
+            setDataValue(GAUGES['moboChipsetTemp']['data'][1], data['chipsetTemp'])
+            
+            setDataValue(GAUGES['ssd1Temp']['data'][0], data['ssd1Temp1'])
+            setDataValue(GAUGES['ssd1Temp']['data'][1], data['ssd1Temp2'])
+
+            setDataValue(GAUGES['ssd2Temp']['data'][0], data['ssd2Temp1'])
+            setDataValue(GAUGES['ssd2Temp']['data'][1], data['ssd2Temp2'])
+
+            // setDataValue(GAUGES['moboChipsetTemp']['data'][0], data['gpuTemp'])
+            // setDataValue(GAUGES['moboChipsetTemp']['data'][1], data['gpuTemp'])
+            // setDataValue(GAUGES['fps']['data'][0], data['fps'])
+            // setDataValue(GAUGES['powerConsumption']['data'][0], data['powerConsumption'])
 
             TIME_DATA["hours"] = data['time'][0]
             TIME_DATA["minutes"] = data['time'][1]

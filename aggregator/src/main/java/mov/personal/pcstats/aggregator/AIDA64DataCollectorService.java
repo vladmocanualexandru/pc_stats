@@ -38,6 +38,12 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        String snic2dlrate = parsedData.get("SNIC2DLRATE");
        String snic2ulrate = parsedData.get("SNIC2ULRATE");
 
+       String tmobo = parsedData.get("TMOBO");
+       String tchip = parsedData.get("TCHIP");
+       String thdd1 = parsedData.get("THDD1");
+       String thdd2 = parsedData.get("THDD2");
+       String thdd1ts2 = parsedData.get("THDD1TS2");
+       String thdd2ts2 = parsedData.get("THDD2TS2");
 
        List<String> keys = new ArrayList<String>(parsedData.keySet());
        Collections.sort(keys);
@@ -53,6 +59,15 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
 
        if (snic2dlrate != null) systemStatus.setBandwidthDownRate(Double.parseDouble(snic2dlrate));
        if (snic2ulrate != null) systemStatus.setBandwidthUpRate(Double.parseDouble(snic2ulrate)); 
+
+       if (tmobo != null) systemStatus.setMoboTemp(Double.parseDouble(tmobo)); 
+       if (tchip != null) systemStatus.setChipsetTemp(Double.parseDouble(tchip)); 
+
+       if (thdd1 != null) systemStatus.setSsd1Temp1(Double.parseDouble(thdd1)); 
+       if (thdd2 != null) systemStatus.setSsd2Temp1(Double.parseDouble(thdd2)); 
+
+       if (thdd1ts2 != null) systemStatus.setSsd1Temp2(Double.parseDouble(thdd1ts2)); 
+       if (thdd2ts2 != null) systemStatus.setSsd2Temp2(Double.parseDouble(thdd2ts2)); 
     }
 
     private Map<String, String> parseData(List<Map<String,String>> wmiData){
