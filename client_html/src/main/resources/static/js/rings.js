@@ -297,7 +297,7 @@ const GAUGES = {
             "minValue": 40,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
+            "maxAlertThreshold": 90
         },
         {
             "value":-1,
@@ -309,7 +309,7 @@ const GAUGES = {
             "minValue": 40,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
+            "maxAlertThreshold": 90
         }]
     },
     "ssd2Temp": {
@@ -330,7 +330,7 @@ const GAUGES = {
             "minValue": 40,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
+            "maxAlertThreshold": 90
         },
         {
             "value":-1,
@@ -342,7 +342,7 @@ const GAUGES = {
             "minValue": 40,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
+            "maxAlertThreshold": 90
         }]
     },
 

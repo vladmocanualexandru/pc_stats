@@ -1,23 +1,28 @@
 package mov.personal.pcstats.aggregator.mqtt;
 
+import org.json.JSONObject;
+
 public class AqirysPowerConsumptionTopic extends SingleValueTopic{
-    private Integer value = -1; 
+    private Double value = -1.0; 
 
     @Override
     protected String getTopic() {
-        return "homeassistant/out/aqirys-power-consumption";
+        return "zigbee2mqtt/Outlet | aqirys @ study";
     }
 
     @Override
     protected void payloadReceived(byte[] payload) {
-        value = Integer.parseInt(new String(payload));
+        String jsonData = new String(payload);
+        JSONObject jsonObject = new JSONObject(jsonData);
+
+        value = jsonObject.getDouble("power");
     }
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 }
