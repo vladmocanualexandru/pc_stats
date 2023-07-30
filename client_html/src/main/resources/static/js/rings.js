@@ -12,11 +12,32 @@ const RING_WIDTH=20
 
 const POLL_URL = $("body").attr("data-pollUrl");
 const GAUGES = {
-    "cpuLoad": {
+    "ramLoad": {
         "meta":{
             "type":"single",
             "line":0, 
             "col":0,
+            "labels": ['RAM','LOAD', '', '%'],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#FF00FF'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 10,
+            "maxValue": 60,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 999
+        }]
+    },
+    "cpuLoad": {
+        "meta":{
+            "type":"single",
+            "line":0, 
+            "col":1,
             "labels": ['CPU','LOAD','','%'],
             "maxValueRecordEnabled": true,
         },
@@ -34,33 +55,12 @@ const GAUGES = {
             "maxAlertThreshold": 999
         }]
     },
-    "gpuLoadCore": {
-        "meta":{
-            "type":"single",
-            "line":0, 
-            "col":1,
-            "labels": ['GPU','CORE','','%'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#76B900'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 90
-        }]
-    },
-    "gpuLoadMem": {
+    "cpuTemp": {
         "meta":{
             "type":"single",
             "line":0, 
             "col":2,
-            "labels": ['GPU','MEM','','%'],
+            "labels": ['CPU','TEMP','','°C'],
             "maxValueRecordEnabled": true,
         },
         "data":[{
@@ -68,12 +68,12 @@ const GAUGES = {
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#76B900'},
+            "getColor": () => {return '#FF0000'},
             "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 100,
+            "minValue": 50,
+            "maxValue": 90,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 90
+            "maxAlertThreshold": 80
         }]
     },
     "fps": {
@@ -92,17 +92,17 @@ const GAUGES = {
             "getColor": () => {return '#FFFFFF'},
             "getDataLabel": (data) => { return Math.round(data)}, 
             "minValue": 0,
-            "maxValue": 300,
+            "maxValue": 240,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 9999
+            "maxAlertThreshold": 99999
         }]
     },
-    "cpuTemp": {
+    "gpuLoadCore": {
         "meta":{
             "type":"single",
             "line":1, 
             "col":0,
-            "labels": ['CPU','TEMP','','°C'],
+            "labels": ['GPU','CORE','','%'],
             "maxValueRecordEnabled": true,
         },
         "data":[{
@@ -110,19 +110,40 @@ const GAUGES = {
             "target":-1,
             "delta":-1,
             "maxRecordedValue":-1,
-            "getColor": () => {return '#FF0000'},
+            "getColor": () => {return '#76B900'},
             "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 45,
+            "minValue": 0,
             "maxValue": 100,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
+            "maxAlertThreshold": 999
+        }]
+    },
+    "gpuLoadMem": {
+        "meta":{
+            "type":"single",
+            "line":1, 
+            "col":1,
+            "labels": ['GPU','MEM','','%'],
+            "maxValueRecordEnabled": true,
+        },
+        "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#76B900'},
+            "getDataLabel": (data) => { return Math.round(data)}, 
+            "minValue": 0,
+            "maxValue": 100,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 999
         }]
     },
     "gpuTemp": {
         "meta":{
             "type":"single",
             "line":1, 
-            "col":1,
+            "col":2,
             "labels": ['GPU','TEMP', '', '°C'],
             "maxValueRecordEnabled": true,
         },
@@ -133,31 +154,10 @@ const GAUGES = {
             "maxRecordedValue":-1,
             "getColor": () => {return '#76B900'},
             "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 40,
-            "maxValue": 100,
+            "minValue": 50,
+            "maxValue": 90,
             "minAlertThreshold": 0,
             "maxAlertThreshold": 80
-        }]
-    },
-    "ramLoad": {
-        "meta":{
-            "type":"single",
-            "line":1, 
-            "col":2,
-            "labels": ['RAM','LOAD', '', '%'],
-            "maxValueRecordEnabled": true,
-        },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FF00FF'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 75
         }]
     },
     "powerConsumption": {
@@ -175,10 +175,10 @@ const GAUGES = {
             "maxRecordedValue":-1,
             "getColor": () => {return '#FFFF00'},
             "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 0,
-            "maxValue": 600,
+            "minValue": 100,
+            "maxValue": 500,
             "minAlertThreshold": 0,
-            "maxAlertThreshold": 400
+            "maxAlertThreshold": 450
         }]
     },
     // "cpuRamLoad": {
@@ -215,247 +215,6 @@ const GAUGES = {
     //         "maxAlertThreshold": 75
     //     }]
     // },
-    // "gpuLoad": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":0, 
-    //         "col":1,
-    //         "labels": ['GPU','CORE %','','MEM %',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#76B900'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 0,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 999
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#4D7700'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 0,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 999
-    //     }]
-    // },
-    // "net": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":0, 
-    //         "col":2,
-    //         "labels": ['MB/s','DOWN','','UP',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#00FFFF'},
-    //         "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
-    //         "minValue": 0,
-    //         "maxValue": 12000,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 99999
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#00A8A8'},
-    //         "getDataLabel": (data) => { return (data/1024).toFixed(2)}, 
-    //         "minValue": 0,
-    //         "maxValue": 12000,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 99999
-    //     }]
-    // },
-    
-    // "misc": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":0, 
-    //         "col":3,
-    //         "labels": ['MISC','FPS','','LOAD W',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#FF6700'},
-    //         // "getColor": () => {return '#EEEEEE'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 0,
-    //         "maxValue": 300,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 9999
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#FFDC00'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 0,
-    //         "maxValue": 600,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 400
-    //     }]
-    // },
-    // "cpuGpuTemp": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":1, 
-    //         "col":0,
-    //         "labels": ['TEMP','CPU °C','','GPU °C',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#FF0000'},
-    //         // "getColor": () => {return '#ED1C24'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 80
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#4D7700'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 80
-    //     }]
-    // },
-    // "moboChipsetTemp": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":1, 
-    //         "col":1,
-    //         "labels": ['TEMP','MOBO °C','','CHIP °C',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#8700FF'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 80
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#5500A5'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 80
-    //     }]
-    // },
-    // "ssd1Temp": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":1, 
-    //         "col":2,
-    //         "labels": ['SSD 1','TEMP1 °C','','TEMP2 °C',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#0087FF'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 90
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#0060B5'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 90
-    //     }]
-    // },
-    // "ssd2Temp": {
-    //     "meta":{
-    //         "type":"double",
-    //         "line":1, 
-    //         "col":3,
-    //         "labels": ['SSD 2','TEMP1 °C','','TEMP2 °C',''],
-    //         "maxValueRecordEnabled": true,
-    //     },
-    //     "data":[{
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#0087FF'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 90
-    //     },
-    //     {
-    //         "value":-1,
-    //         "target":-1,
-    //         "delta":-1,
-    //         "maxRecordedValue":-1,
-    //         "getColor": () => {return '#0060B5'},
-    //         "getDataLabel": (data) => { return Math.round(data)}, 
-    //         "minValue": 40,
-    //         "maxValue": 100,
-    //         "minAlertThreshold": 0,
-    //         "maxAlertThreshold": 90
-    //     }]
-    // },
-
-   
-
-
-    
-    
-
     // "time": {
     //     "meta":{
     //         "type":"time",
@@ -555,41 +314,11 @@ function pollForData(){
             setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuTemp'])
             setDataValue(GAUGES['ramLoad']['data'][0], data['ramLoad'])
             setDataValue(GAUGES['powerConsumption']['data'][0], data['powerConsumption'])
+            TIME_DATA["hours"] = data['time'][0]
+            TIME_DATA["minutes"] = data['time'][1]
             
             // setDataValue(GAUGES['cpuRamLoad']['data'][0], data['cpuLoad'])
             // setDataValue(GAUGES['cpuRamLoad']['data'][1], data['ramLoad'])
-            
-            
-            
-            // setDataValue(GAUGES['gpuLoad']['data'][0], data['gpuLoadCore'])
-            // setDataValue(GAUGES['gpuLoad']['data'][1], data['gpuLoadMemory'])
-            
-            // setDataValue(GAUGES['net']['data'][0], data['bandwidthDownRate'])
-            // setDataValue(GAUGES['net']['data'][1], data['bandwidthUpRate'])
-            
-            
-            
-            
-            // setDataValue(GAUGES['misc']['data'][0], data['fps'])
-            // setDataValue(GAUGES['misc']['data'][1], data['powerConsumption'])
-
-            // setDataValue(GAUGES['cpuGpuTemp']['data'][0], data['cpuTemp'])
-            // setDataValue(GAUGES['cpuGpuTemp']['data'][1], data['gpuTemp'])
-            
-            // setDataValue(GAUGES['moboChipsetTemp']['data'][0], data['moboTemp'])
-            // setDataValue(GAUGES['moboChipsetTemp']['data'][1], data['chipsetTemp'])
-            
-            // setDataValue(GAUGES['ssd1Temp']['data'][0], data['ssd1Temp1'])
-            // setDataValue(GAUGES['ssd1Temp']['data'][1], data['ssd1Temp2'])
-
-            // setDataValue(GAUGES['ssd2Temp']['data'][0], data['ssd2Temp1'])
-            // setDataValue(GAUGES['ssd2Temp']['data'][1], data['ssd2Temp2'])
-
-            // setDataValue(GAUGES['moboChipsetTemp']['data'][0], data['gpuTemp'])
-            // setDataValue(GAUGES['moboChipsetTemp']['data'][1], data['gpuTemp'])
-
-            TIME_DATA["hours"] = data['time'][0]
-            TIME_DATA["minutes"] = data['time'][1]
         },
         error: function(e1,e2,e3,e4){
             brokenConnection = true
@@ -687,7 +416,7 @@ function drawGauge_single(meta, dataSet) {
         }
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, startRad + Math.max(data['value'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, Math.min(endRad, startRad + Math.max(data['value'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad)))
         ctx.strokeStyle = data['getColor']()
         ctx.stroke();
     }
@@ -773,12 +502,12 @@ function drawGauge_double(meta, dataSet) {
         }
         
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + Math.max(data1['value'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, Math.min(endRad, startRad + Math.max(data1['value'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue'])*(endRad-startRad)))
         ctx.strokeStyle = data1['getColor']()
         ctx.stroke();
 
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + Math.max(data0['value'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad))
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, Math.min(endRad, startRad + Math.max(data0['value'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue'])*(endRad-startRad)))
         ctx.strokeStyle = data0['getColor']()
         ctx.stroke();
 
@@ -878,17 +607,17 @@ function drawGauge_double(meta, dataSet) {
 //         ctx.stroke();
         
 //         ctx.beginPath()
-//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, startRad + data2['value']/data2['maxValue']*(endRad-startRad))
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2+10, startRad, Math.min(endRad, startRad + data2['value']/data2['maxValue']*(endRad-startRad)))
 //         ctx.strokeStyle = data2['getColor']()
 //         ctx.stroke();
         
 //         ctx.beginPath()
-//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, startRad + data1['value']/data1['maxValue']*(endRad-startRad))
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-5, startRad, Math.min(endRad, startRad + data1['value']/data1['maxValue']*(endRad-startRad)))
 //         ctx.strokeStyle = data1['getColor']()
 //         ctx.stroke();
 
 //         ctx.beginPath()
-//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, startRad, startRad + data0['value']/data0['maxValue']*(endRad-startRad))
+//         ctx.arc(gaugeX, gaugeY, GAUGE_SIZE/2-20, startRad, Math.min(endRad, startRad + data0['value']/data0['maxValue']*(endRad-startRad)))
 //         ctx.strokeStyle = data0['getColor']()
 //         ctx.stroke();
 //     }
