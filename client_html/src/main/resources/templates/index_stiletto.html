@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>PCStats - Stilleto</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <style>
+      html, body {
+        margin:0px;
+        padding:0px;
+      }
+
+      body {
+         background:#000;
+      }
+
+      #bottomContainer{
+         text-align:center;
+         font-family: Arial;
+         font-size: 18px;
+         color: #999;
+         width: 800px;
+         cursor: pointer;
+         line-height:76px;
+      }
+      #bottomContainer div.cell {
+         width:20%;
+         text-align: center;
+         float:left;
+      }
+    </style>
+
+</head>
+<body th:attr="data-pollUrl=@{/poll-system-stats}">  
+   <canvas width="800" height="400"></canvas>
+   <div id="bottomContainer">
+      <div class="cell" onclick="toggleAlert()">TEST ALERT</div>
+      <div class="cell" onclick="resetMaxValues()">RESET MAX</div>
+      <div id="timeCell" class="cell" style="font-size:46px; color:white;">--:--</div>
+      <div class="cell" onclick="toggleMaxValuesView(this)">SHOW MAX</div>
+      <div class="cell" onclick="reloadPage()">RELOAD</div>
+   </div>
+   
+   <script th:src="@{/js/external/jquery-3.5.1.min.js}"></script>
+   <script th:src="@{/js/stiletto.js}"></script>
+</body>
+</html>

@@ -34,11 +34,11 @@ public class MainController {
 
         SystemInfo systemInfo = new SystemInfo();
         
-        if (!useMockDataOnUi) {
-            systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
-        } else {
+        // if (!useMockDataOnUi) {
+        //     systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
+        // } else {
             systemInfo = mockBuilder.buildInfo();
-        }
+        // }
         
         model.addAttribute("systemInfo", systemInfo);
         model.addAttribute("currentTime", new Date());
@@ -67,38 +67,23 @@ public class MainController {
 
     @GetMapping("/rings24")
     public String showRingsIndex24(Model model){
-        
-        // SystemInfo systemInfo = new SystemInfo();
-        
-        // if (!useMockDataOnUi) {
-        //     systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
-        // } else {
-        //     systemInfo = mockBuilder.buildInfo();
-        // }
-
-        // model.addAttribute("systemInfo", systemInfo);
-        // model.addAttribute("currentTime", new Date());
-        // model.addAttribute("theme", theme);
-
         return "index_rings24";
     }
 
     @GetMapping("/rings")
     public String showRingsIndex(Model model){
-        
-        // SystemInfo systemInfo = new SystemInfo();
-        
-        // if (!useMockDataOnUi) {
-        //     systemInfo = restTemplate.getForObject(systemInfoUrl, SystemInfo.class);
-        // } else {
-        //     systemInfo = mockBuilder.buildInfo();
-        // }
-
-        // model.addAttribute("systemInfo", systemInfo);
-        // model.addAttribute("currentTime", new Date());
-        // model.addAttribute("theme", theme);
-
         return "index_rings";
     }
+
+    @GetMapping("/stiletto")
+    public String showStilettoIndex(Model model){
+        return "index_stiletto";
+    }
+
+    @GetMapping("/aviator")
+    public String showAviatorIndex(Model model){
+        return "index_aviator";
+    }
+
 
 }
