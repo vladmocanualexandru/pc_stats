@@ -44,8 +44,7 @@ public class MockDataBuilder {
                 status.getTime()[1] = (int)Math.round(Math.random()*59);;
                 status.getTime()[2] = 0;
 
-                // status.setPowerConsumption((int)Math.round(Math.random()*800));
-                status.setPowerConsumption(-1);
+                status.setPowerConsumption((int)Math.round(Math.random()*800));
 
                 return status;
 	}
