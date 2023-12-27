@@ -37,11 +37,15 @@ public class MockDataBuilder {
 
                 status.setFps((int)Math.round(Math.random()*180));
 
+                status.setCpuFan((int)Math.round(Math.random()*2100));
+                status.setGpuFan((int)Math.round(Math.random()*1400));
+
                 status.getTime()[0] = (int)Math.round(Math.random()*23);
                 status.getTime()[1] = (int)Math.round(Math.random()*59);;
                 status.getTime()[2] = 0;
 
-                status.setPowerConsumption((int)Math.round(Math.random()*800));
+                // status.setPowerConsumption((int)Math.round(Math.random()*800));
+                status.setPowerConsumption(-1);
 
                 return status;
 	}
@@ -60,6 +64,9 @@ public class MockDataBuilder {
                 status.setRamLoad(Math.max(0, Math.min(100, status.getRamLoad()+(Math.random()*10-5))));
                 
                 status.setFps((int)Math.max(0, Math.min(180, status.getFps()+(Math.random()*18-9))));
+
+                status.setCpuFan((int)Math.max(0, Math.min(3000, status.getCpuFan()+(Math.random()*200-100))));
+                status.setGpuFan((int)Math.max(0, Math.min(3000, status.getGpuFan()+(Math.random()*200-100))));
                 
                 int hours = status.getTime()[0];
                 int minutes = status.getTime()[1] + 10;

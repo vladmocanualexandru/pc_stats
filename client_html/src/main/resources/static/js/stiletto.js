@@ -8,9 +8,11 @@ const GAUGE_SPACING_X = 15
 const GAUGE_SPACING_Y = 20
 
 const GAUGE_SIZE=160
+const GAUGE_DOUBLE_SIZE=142
 const RING_WIDTH=20
 
 const NEEDLE_BODY_LENGTH = 80
+const NEEDLE_SHORT_BODY_LENGTH = 70
 const NEEDLE_TAIL_LENGTH = 20
 
 const POLL_URL = $("body").attr("data-pollUrl");
@@ -64,19 +66,33 @@ const GAUGES = {
             "col":2,
             "labels": ['CPU','TEMP','°C'],
             "maxValueRecordEnabled": true,
+            "type": "double"
         },
-        "data":[{
-            "value":-1,
-            "target":-1,
-            "delta":-1,
-            "maxRecordedValue":-1,
-            "getColor": () => {return '#FF9900'},
-            "getDataLabel": (data) => { return Math.round(data)}, 
-            "minValue": 40,
-            "maxValue": 100,
-            "minAlertThreshold": 0,
-            "maxAlertThreshold": 80
-        }]
+        "data":[
+            {
+                "value":-1,
+                "target":-1,
+                "delta":-1,
+                "maxRecordedValue":-1,
+                "getColor": () => {return '#555555'},
+                "getDataLabel": (data) => { return data}, 
+                "minValue": 0,
+                "maxValue": 3000,
+                "minAlertThreshold": 0,
+                "maxAlertThreshold": 2100
+            },
+            {
+                "value":-1,
+                "target":-1,
+                "delta":-1,
+                "maxRecordedValue":-1,
+                "getColor": () => {return '#FF9900'},
+                "getDataLabel": (data) => { return Math.round(data)}, 
+                "minValue": 40,
+                "maxValue": 100,
+                "minAlertThreshold": 0,
+                "maxAlertThreshold": 80
+            }]
     },
     "fps": {
         "meta":{
@@ -148,8 +164,20 @@ const GAUGES = {
             "col":2,
             "labels": ['GPU','TEMP','°C'],
             "maxValueRecordEnabled": true,
+            "type": "double"
         },
         "data":[{
+            "value":-1,
+            "target":-1,
+            "delta":-1,
+            "maxRecordedValue":-1,
+            "getColor": () => {return '#555555'},
+            "getDataLabel": (data) => { return data}, 
+            "minValue": 0,
+            "maxValue": 1400,
+            "minAlertThreshold": 0,
+            "maxAlertThreshold": 3000
+        },{
             "value":-1,
             "target":-1,
             "delta":-1,
@@ -187,7 +215,8 @@ const GAUGES = {
 
 const GAUGE_LOGIC = {
     "single": drawGauge_single,
-    "cpuLoad": drawGauge_cpuLoad
+    "double": drawGauge_double,
+    "cpuLoad": drawGauge_cpuLoad,
 }
 
 const TIME_DATA = {
@@ -238,8 +267,12 @@ function pollForData(){
             setDataValue(GAUGES['gpuLoadMem']['data'][0], data['gpuLoadMemory'])
             setDataValue(GAUGES['fps']['data'][0], data['fps'])
             
-            setDataValue(GAUGES['cpuTemp']['data'][0], data['cpuTemp'])
-            setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuTemp'])
+            setDataValue(GAUGES['cpuTemp']['data'][0], data['cpuFan'])
+            setDataValue(GAUGES['cpuTemp']['data'][1], data['cpuTemp'])
+
+            setDataValue(GAUGES['gpuTemp']['data'][0], data['gpuFan'])
+            setDataValue(GAUGES['gpuTemp']['data'][1], data['gpuTemp'])
+
             setDataValue(GAUGES['ramLoad']['data'][0], data['ramLoad'])
             setDataValue(GAUGES['powerConsumption']['data'][0], data['powerConsumption'])
             TIME_DATA["hours"] = data['time'][0]
@@ -346,12 +379,12 @@ function drawGauge_single(meta, dataSet) {
         ctx.lineWidth = RING_WIDTH-15
     }
 
-    let valueAngleRad = Math.PI / 12;
-    if (data['value']>-1) {
+    let valueAngleRad = degreesToRads(15)
+    if (data['value']>-1 && !brokenConnection) {
         valueAngleRad = Math.min(endRad, startRad + Math.max(data['value'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
     }
     ctx.beginPath()
-    ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, valueAngleRad)
+    ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, Math.max(startRad, valueAngleRad))
     ctx.strokeStyle = data['getColor']()
     ctx.stroke();
 
@@ -401,10 +434,127 @@ function drawGauge_single(meta, dataSet) {
 
 }
 
-function drawGauge_cpuLoad(meta, dataSet) {
-    let needleBodyLength = 70
-    let gaugeSize = 142
+function drawGauge_double(meta, dataSet) {
+    let data0 = dataSet[0]
+    let data1 = dataSet[1]
 
+    let col = meta['col']
+    let line = meta['line']
+    let gaugeX = GAUGE_OFFSET_X+col*(GAUGE_SPACING_X+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+    let gaugeY = GAUGE_OFFSET_Y+line*(GAUGE_SPACING_Y+GAUGE_SIZE+RING_WIDTH)+GAUGE_SIZE/2+RING_WIDTH/2
+
+    ctx.lineWidth = RING_WIDTH-15
+    ctx.lineCap = 'round'
+
+    // let startParkRad = degreesToRads(35)
+    // let endParkRad = degreesToRads(55)
+    let startRad = degreesToRads(45)
+    let endRad = degreesToRads(270)
+
+    let value0 = data0['value']
+    let value1 = data1['value']
+    
+    let alertEnabled = false
+    if (value0<data0['minAlertThreshold'] || value0>data0['maxAlertThreshold'] || value1<data1['minAlertThreshold'] || value1>data1['maxAlertThreshold']) {
+        alertEnabled = true
+    } 
+
+    alertEnabled = alertEnabled || alertTestModeEnabled
+ 
+    if (meta['maxValueRecordEnabled']) {
+        let maxValue0BubbleRad = startRad + Math.max(data0['maxRecordedValue'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue']) * (endRad - startRad)
+        let maxValue1BubbleRad = startRad + Math.max(data1['maxRecordedValue'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue']) * (endRad - startRad)
+        
+        ctx.beginPath()
+        ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, maxValue0BubbleRad, maxValue0BubbleRad)
+        // ctx.strokeStyle = '#555555'
+        ctx.strokeStyle = data0['getColor']()
+        ctx.stroke();
+
+        ctx.beginPath()
+        ctx.arc(gaugeX, gaugeY, GAUGE_DOUBLE_SIZE / 2 + 10, maxValue1BubbleRad, maxValue1BubbleRad)
+        // ctx.strokeStyle = '#555555'
+        ctx.strokeStyle = data1['getColor']()
+        ctx.stroke();
+
+        // ctx.lineWidth = RING_WIDTH-17
+
+        // ctx.beginPath();
+        // ctx.moveTo(gaugeX-Math.sin(maxValueBubbleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH, gaugeY+Math.cos(maxValueBubbleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH);
+        // ctx.lineTo(gaugeX+Math.cos(maxValueBubbleRad)*NEEDLE_BODY_LENGTH, gaugeY+Math.sin(maxValueBubbleRad)*NEEDLE_BODY_LENGTH);
+        // ctx.stroke();
+
+        ctx.lineWidth = RING_WIDTH-15
+    }
+
+    let valueAngleRad = degreesToRads(15)
+    if (data0['value']>-1 && !brokenConnection) {
+        valueAngleRad = Math.min(endRad, startRad + Math.max(data0['value'] - data0['minValue'], 1) / (data0['maxValue'] - data0['minValue']) * (endRad - startRad))
+    }
+    ctx.beginPath()
+    ctx.arc(gaugeX, gaugeY, GAUGE_SIZE / 2 + 10, startRad, Math.max(startRad, valueAngleRad))
+    ctx.strokeStyle = data0['getColor']()
+    ctx.stroke();
+
+    valueAngleRad = degreesToRads(15);
+    if (data1['value']>-1 && !brokenConnection) {
+        valueAngleRad = Math.min(endRad, startRad + Math.max(data1['value'] - data1['minValue'], 1) / (data1['maxValue'] - data1['minValue']) * (endRad - startRad))
+    }
+    ctx.beginPath()
+    ctx.arc(gaugeX, gaugeY, GAUGE_DOUBLE_SIZE / 2 + 10, startRad, Math.max(startRad, valueAngleRad))
+    ctx.strokeStyle = data1['getColor']()
+    ctx.stroke();
+
+
+
+    if (alertEnabled) {
+        ctx.beginPath()
+        ctx.arc(gaugeX+75, gaugeY-74, 13, 0, 2 * Math.PI)
+        ctx.fillStyle = 'red';
+        ctx.fill();
+    }
+
+    ctx.lineWidth = RING_WIDTH-17
+
+
+    ctx.beginPath();
+    ctx.moveTo(gaugeX-Math.sin(valueAngleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH, gaugeY+Math.cos(valueAngleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH);
+    ctx.lineTo(gaugeX+Math.cos(valueAngleRad)*NEEDLE_SHORT_BODY_LENGTH, gaugeY+Math.sin(valueAngleRad)*NEEDLE_SHORT_BODY_LENGTH);
+    ctx.stroke();
+
+    ctx.beginPath()
+    ctx.arc(gaugeX, gaugeY, 5, 0, 2 * Math.PI)
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    ctx.beginPath()
+    ctx.arc(gaugeX, gaugeY, 5, 0, 2 * Math.PI)
+    ctx.strokeStyle = data1['getColor']()
+    ctx.stroke();
+
+
+
+    ctx.font = "16px b612"
+    ctx.fillStyle = (showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':data1['getColor']()
+    ctx.textAlign = "center"
+    ctx.fillText(meta['labels'][0], gaugeX+46, gaugeY+33)
+    
+    ctx.font = "16px b612"
+    ctx.fillStyle = (showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':data1['getColor']()
+    ctx.textAlign = "center"
+    ctx.fillText(meta['labels'][1], gaugeX+46, gaugeY+53)
+
+    let label = data1['getDataLabel'](showMaxModeEnabled?data1['maxRecordedValue']:data1['value'])
+    label += meta['labels'][2]
+
+    ctx.font = "20px b612"
+    ctx.fillStyle = (showMaxModeEnabled&&meta['maxValueRecordEnabled'])?'#999999':data1['getColor']()
+    ctx.textAlign = "center"
+    ctx.fillText(label, gaugeX+46, gaugeY+80)
+
+}
+
+function drawGauge_cpuLoad(meta, dataSet) {
     let data = dataSet[0]
 
     let col = meta['col']
@@ -433,7 +583,7 @@ function drawGauge_cpuLoad(meta, dataSet) {
         let maxValueBubbleRad = startRad + Math.max(data['maxRecordedValue'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad)
         
         ctx.beginPath()
-        ctx.arc(gaugeX, gaugeY, gaugeSize / 2 + 10, maxValueBubbleRad, maxValueBubbleRad)
+        ctx.arc(gaugeX, gaugeY, GAUGE_DOUBLE_SIZE / 2 + 10, maxValueBubbleRad, maxValueBubbleRad)
         // ctx.strokeStyle = '#555555'
         ctx.strokeStyle = data['getColor']()
         ctx.stroke();
@@ -448,12 +598,12 @@ function drawGauge_cpuLoad(meta, dataSet) {
         ctx.lineWidth = RING_WIDTH-15
     }
 
-    let valueAngleRad = Math.PI / 12;
-    if (data['value']>-1) {
+    let valueAngleRad = degreesToRads(15);
+    if (data['value']>-1 && !brokenConnection) {
         valueAngleRad = Math.min(endRad, startRad + Math.max(data['value'] - data['minValue'], 1) / (data['maxValue'] - data['minValue']) * (endRad - startRad))
     }
     ctx.beginPath()
-    ctx.arc(gaugeX, gaugeY, gaugeSize / 2 + 10, startRad, valueAngleRad)
+    ctx.arc(gaugeX, gaugeY, GAUGE_DOUBLE_SIZE / 2 + 10, startRad, Math.max(startRad, valueAngleRad))
     ctx.strokeStyle = data['getColor']()
     ctx.stroke();
 
@@ -469,7 +619,7 @@ function drawGauge_cpuLoad(meta, dataSet) {
 
     ctx.beginPath();
     ctx.moveTo(gaugeX-Math.sin(valueAngleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH, gaugeY+Math.cos(valueAngleRad+Math.PI/2)*NEEDLE_TAIL_LENGTH);
-    ctx.lineTo(gaugeX+Math.cos(valueAngleRad)*needleBodyLength, gaugeY+Math.sin(valueAngleRad)*needleBodyLength);
+    ctx.lineTo(gaugeX+Math.cos(valueAngleRad)*NEEDLE_SHORT_BODY_LENGTH, gaugeY+Math.sin(valueAngleRad)*NEEDLE_SHORT_BODY_LENGTH);
     ctx.stroke();
 
     ctx.beginPath()
@@ -503,6 +653,7 @@ function drawGauge_cpuLoad(meta, dataSet) {
     ctx.fillText(label, gaugeX+46, gaugeY+80)
 
 }
+
 
 function drawTime() {
     let label = String(Math.round(TIME_DATA["hours"])).padStart(2, '0') + ':' + String(Math.round(TIME_DATA["minutes"])).padStart(2, '0')
@@ -560,7 +711,7 @@ function reloadPage(){
     location.reload()
 }
 
-let cycles = 0
+let cycles = 1
 function tick() {
     updateGauges()
     drawTime()
@@ -570,5 +721,4 @@ function tick() {
     }
     cycles+=1
 }
-
 setInterval(tick, 1000/REFRESH_RATE)

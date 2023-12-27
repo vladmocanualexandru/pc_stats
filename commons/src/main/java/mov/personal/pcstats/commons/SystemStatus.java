@@ -8,6 +8,7 @@ public class SystemStatus {
     private double ssd2Temp1, ssd2Temp2;
     private double powerConsumption;
     private double bandwidthDownRate, bandwidthUpRate;
+    private int cpuFan, gpuFan;
     private int fps = -1;
     private int[] time = {-1,-1,-1};
 
@@ -27,6 +28,8 @@ public class SystemStatus {
         this.ssd1Temp2 = -1f;
         this.ssd2Temp1 = -1f;
         this.ssd2Temp2 = -1f;
+        this.cpuFan = -1;
+        this.gpuFan = -1;
     }
 
     public double getCpuLoad() {
@@ -171,6 +174,22 @@ public class SystemStatus {
 
     public void setSsd2Temp2(double ssd2Temp2) {
         this.ssd2Temp2 = ssd2Temp2;
+    }
+
+    public int getCpuFan() {
+        return cpuFan;
+    }
+
+    public void setCpuFan(int cpuFan) {
+        this.cpuFan = cpuFan;
+    }
+
+    public int getGpuFan() {
+        return gpuFan;
+    }
+
+    public void setGpuFan(int gpuFan) {
+        this.gpuFan = gpuFan;
     }
     
 }

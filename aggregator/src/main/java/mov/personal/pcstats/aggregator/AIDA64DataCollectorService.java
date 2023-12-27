@@ -31,6 +31,9 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        String scpuuti = parsedData.get("SCPUUTI");
        String tcpu = parsedData.get("TCPU");
        String tgpu = parsedData.get("TGPU1");
+
+       String fcpu = parsedData.get("FCPU");
+       String fgpu = parsedData.get("FGPU1");
        
        String sgpu1uti = parsedData.get("SGPU1UTI");
        String sgpu1mcuti = parsedData.get("SGPU1MCUTI");
@@ -53,6 +56,9 @@ public class AIDA64DataCollectorService implements SystemDataCollector {
        if (scpuuti != null) systemStatus.setCpuLoad(Double.parseDouble(scpuuti));
        if (tcpu != null) systemStatus.setCpuTemp(Double.parseDouble(tcpu));
        if (tgpu != null) systemStatus.setGpuTemp(Double.parseDouble(tgpu));
+
+       if (fcpu != null) systemStatus.setCpuFan(Integer.parseInt(fcpu));
+       if (fgpu != null) systemStatus.setGpuFan(Integer.parseInt(fgpu));
 
        if (sgpu1uti != null) systemStatus.setGpuLoadCore(Double.parseDouble(sgpu1uti));
        if (sgpu1mcuti != null) systemStatus.setGpuLoadMemory(Double.parseDouble(sgpu1mcuti));
